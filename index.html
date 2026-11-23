@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ublix Atelier Digital | UX, Organização & Sustentação Técnica — ublix.com.br</title>
+  <meta name="description" content="Evolução digital contínua sem redesign completo e sem burocracia de agência. Manutenção técnica, organização & usabilidade, UX pontual, SEO estrutural e operação de e-commerce." />
+
+  <!-- Google Fonts: Plus Jakarta Sans, Cormorant Garamond & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            serif: ['Cormorant Garamond', 'serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            atelier: {
+              bg: '#FAF8F6',
+              surface: '#FFFFFF',
+              soft: '#F4F0EC',
+              border: '#EBE5E0',
+              ink: '#272325',
+              muted: '#6E6568',
+              plum: '#8E5A82',
+              blush: '#C66D77',
+            }
+          },
+          boxShadow: {
+            'soft': '0 10px 35px -10px rgba(39, 35, 37, 0.05)',
+            'card': '0 4px 20px -4px rgba(39, 35, 37, 0.04)',
+            'float': '0 20px 45px -12px rgba(39, 35, 37, 0.12)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #FAF8F6;
+      color: #272325;
+      overflow-x: hidden;
+    }
+
+    .glass-nav {
+      background: rgba(250, 248, 246, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    /* Scrollbar minimalista */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FAF8F6;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #DCD4CE;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #C4B9B1;
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .animate-fade-slide {
+      animation: fadeSlide 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-[#8E5A82]/15 selection:text-[#272325]">
+
+  <!-- Toast de Notificação (Substitui alert()) -->
+  <div id="toast" class="fixed bottom-24 right-5 z-50 hidden max-w-sm rounded-2xl border border-atelier-border bg-white px-4 py-3.5 text-sm text-atelier-ink shadow-float sm:bottom-6">
+    <div class="flex items-center gap-3">
+      <span id="toast-dot" class="h-2.5 w-2.5 shrink-0 rounded-full" style="background-color: #8E5A82;"></span>
+      <p id="toast-message" class="font-medium leading-snug"></p>
+    </div>
+  </div>
+
+  <!-- Cabeçalho Minimalista & Fixo -->
+  <header class="glass-nav sticky top-0 z-40 border-b border-atelier-border">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+      <!-- Marca Ublix -->
+      <a href="#" class="group flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-full border border-[#8E5A82]/25 bg-white shadow-card transition-transform group-hover:scale-105">
+          <span class="font-serif text-2xl font-bold italic text-[#8E5A82]">u</span>
+        </div>
+        <div>
+          <div class="flex items-baseline gap-1">
+            <span class="text-lg font-bold tracking-tight text-atelier-ink">ublix</span>
+            <span class="font-mono text-xs font-medium text-[#8E5A82]">.com.br</span>
+          </div>
+          <p class="text-[11px] tracking-wide text-atelier-muted">UX, Organização & Sustentação</p>
+        </div>
+      </a>
+
+      <!-- Navegação Limpa -->
+      <nav class="hidden items-center gap-8 md:flex">
+        <a href="#metodologia" class="text-sm font-medium text-atelier-muted transition hover:text-atelier-ink">Metodologia</a>
+        <a href="#catalogo" class="text-sm font-medium text-atelier-muted transition hover:text-atelier-ink">Serviços & Simulador</a>
+        <a href="#portfolio" class="text-sm font-medium text-atelier-muted transition hover:text-atelier-ink">Portfólio</a>
+        <a href="#contato" class="text-sm font-medium text-atelier-muted transition hover:text-atelier-ink">Contato</a>
+      </nav>
+
+      <!-- Ações do Header -->
+      <div class="flex items-center gap-2.5">
+        <button
+          onclick="openOrScrollSimulator()"
+          class="inline-flex items-center gap-2 rounded-full border border-atelier-border bg-white px-4 py-2 text-xs font-semibold text-atelier-ink shadow-card transition hover:border-[#8E5A82]/40 sm:text-sm"
+        >
+          <i data-lucide="sparkles" class="h-3.5 w-3.5 text-[#8E5A82]"></i>
+          <span>Meu Escopo</span>
+          <span id="header-badge" class="rounded-full bg-[#8E5A82] px-2 py-0.5 font-mono text-[11px] font-semibold text-white">0</span>
+        </button>
+
+        <a
+          href="#catalogo"
+          class="hidden rounded-full bg-atelier-ink px-5 py-2.5 text-xs font-semibold text-white transition hover:bg-[#3B3538] sm:inline-flex sm:text-sm"
+        >
+          Montar Escopo
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Editorial & Proposta de Valor -->
+  <section class="relative overflow-hidden border-b border-atelier-border pt-14 pb-16 sm:pt-20 sm:pb-24">
+    <!-- Halo suave decorativo -->
+    <div class="pointer-events-none absolute -top-24 right-1/4 h-80 w-80 rounded-full bg-[#8E5A82]/[0.06] blur-[100px]"></div>
+    <div class="pointer-events-none absolute bottom-0 left-1/4 h-72 w-72 rounded-full bg-[#C66D77]/[0.06] blur-[100px]"></div>
+
+    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-4xl text-center">
+        <!-- Selo Editorial -->
+        <div class="mb-6 inline-flex items-center gap-2.5 rounded-full border border-atelier-border bg-white px-4 py-1.5 text-xs font-medium text-atelier-muted shadow-card">
+          <span class="flex items-center gap-1">
+            <span class="h-2 w-2 rounded-full" style="background-color: #5B8599;"></span>
+            <span class="h-2 w-2 rounded-full" style="background-color: #8E5A82;"></span>
+            <span class="h-2 w-2 rounded-full" style="background-color: #C66D77;"></span>
+            <span class="h-2 w-2 rounded-full" style="background-color: #4F8A74;"></span>
+            <span class="h-2 w-2 rounded-full" style="background-color: #B58246;"></span>
+            <span class="h-2 w-2 rounded-full" style="background-color: #6D6DA8;"></span>
+          </span>
+          <span>Sem redesign completo • Sem burocracia de agência</span>
+        </div>
+
+        <h1 class="text-3xl font-bold tracking-tight text-atelier-ink sm:text-5xl lg:text-[54px] lg:leading-[1.14]">
+          Cuidado técnico, <span class="font-serif text-[1.12em] font-bold italic text-[#8E5A82]">clareza visual</span> e evolução contínua para o seu site.
+        </h1>
+
+        <p class="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-atelier-muted sm:text-lg">
+          Seu site ou e-commerce não precisa ser refeito do zero para vender e encantar melhor. Atuo de forma pontual na <strong class="font-semibold text-atelier-ink">organização, usabilidade, estética e rotina técnica</strong> com entregas rápidas e transparentes.
+        </p>
+
+        <!-- Botões Principais -->
+        <div class="mt-9 flex flex-col items-center justify-center gap-3.5 sm:flex-row">
+          <a
+            href="#catalogo"
+            class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-atelier-ink px-7 py-3.5 text-sm font-semibold text-white shadow-soft transition hover:bg-[#3B3538] sm:w-auto"
+          >
+            <span>Explorar Serviços & Simulador</span>
+            <i data-lucide="arrow-down" class="h-4 w-4"></i>
+          </a>
+          <a
+            href="#portfolio"
+            class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-atelier-border bg-white px-7 py-3.5 text-sm font-semibold text-atelier-ink shadow-card transition hover:border-[#8E5A82]/40 sm:w-auto"
+          >
+            <span>Ver Cases & Escopos Prontos</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 3 Cards Resumidos de Valor -->
+      <div class="mt-14 grid gap-5 sm:grid-cols-3">
+        <div class="rounded-3xl border border-atelier-border bg-white p-6 shadow-card">
+          <div class="flex h-10 w-10 items-center justify-center rounded-2xl" style="background-color: #F8F2F6; color: #8E5A82;">
+            <i data-lucide="compass" class="h-5 w-5"></i>
+          </div>
+          <h2 class="mt-4 text-base font-bold text-atelier-ink">Valor Silencioso em UX</h2>
+          <p class="mt-1.5 text-sm leading-relaxed text-atelier-muted">
+            Organização de hierarquia, menus, categorias e jornada do usuário para eliminar atritos e confusão na navegação.
+          </p>
+        </div>
+
+        <div class="rounded-3xl border border-atelier-border bg-white p-6 shadow-card">
+          <div class="flex h-10 w-10 items-center justify-center rounded-2xl" style="background-color: #FDF3F4; color: #C66D77;">
+            <i data-lucide="wand-2" class="h-5 w-5"></i>
+          </div>
+          <h2 class="mt-4 text-base font-bold text-atelier-ink">Intervenções Cirúrgicas</h2>
+          <p class="mt-1.5 text-sm leading-relaxed text-atelier-muted">
+            Ajustes visuais, responsividade mobile, código HTML/CSS/JS e SEO estrutural executados em blocos de 30min a 2h.
+          </p>
+        </div>
+
+        <div class="rounded-3xl border border-atelier-border bg-white p-6 shadow-card">
+          <div class="flex h-10 w-10 items-center justify-center rounded-2xl" style="background-color: #FAF5EE; color: #B58246;">
+            <i data-lucide="shopping-bag" class="h-5 w-5"></i>
+          </div>
+          <h2 class="mt-4 text-base font-bold text-atelier-ink">Rotina Real de E-commerce</h2>
+          <p class="mt-1.5 text-sm leading-relaxed text-atelier-muted">
+            Cadastro e padronização de produtos, revisão de filtros, checkout e acompanhamento mensal com relatórios claros.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Metodologia Minimalista -->
+  <section id="metodologia" class="border-b border-atelier-border bg-white/60 py-14 sm:py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+        <div>
+          <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[#8E5A82]">Metodologia Ublix</span>
+          <h2 class="mt-1.5 text-2xl font-bold tracking-tight text-atelier-ink sm:text-3xl">
+            Simples, modular e sob medida para o seu momento
+          </h2>
+        </div>
+        <p class="max-w-md text-sm text-atelier-muted">
+          Você escolhe exatamente o que precisa destravar hoje — seja uma demanda pontual ou um ciclo mensal de evolução.
+        </p>
+      </div>
+
+      <div class="mt-10 grid gap-6 md:grid-cols-3">
+        <div class="rounded-3xl border border-atelier-border bg-white p-6 shadow-card">
+          <span class="font-serif text-3xl font-bold italic text-[#6D6DA8]">01.</span>
+          <h3 class="mt-2 text-base font-bold text-atelier-ink">Diagnóstico & Clareza</h3>
+          <p class="mt-2 text-sm leading-relaxed text-atelier-muted">
+            Mapeamos os pontos técnicos, visuais e de navegação que estão segurando a experiência do seu visitante.
+          </p>
+        </div>
+
+        <div class="rounded-3xl border border-atelier-border bg-white p-6 shadow-card">
+          <span class="font-serif text-3xl font-bold italic text-[#C66D77]">02.</span>
+          <h3 class="mt-2 text-base font-bold text-atelier-ink">Execução Pontual</h3>
+          <p class="mt-2 text-sm leading-relaxed text-atelier-muted">
+            Aplicamos as melhorias diretamente no seu ambiente com foco em legibilidade, estabilidade e fluidez mobile.
+          </p>
+        </div>
+
+        <div class="rounded-3xl border border-atelier-border bg-white p-6 shadow-card">
+          <span class="font-serif text-3xl font-bold italic text-[#4F8A74]">03.</span>
+          <h3 class="mt-2 text-base font-bold text-atelier-ink">Acompanhamento Transparente</h3>
+          <p class="mt-2 text-sm leading-relaxed text-atelier-muted">
+            Entregas documentadas e planejamento contínuo de prioridades para manter seu projeto sempre saudável.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Catálogo Interativo das 6 Categorias + Simulador de Escopo Lateral -->
+  <section id="catalogo" class="py-16 sm:py-24">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+      <!-- Título & Busca em Tempo Real -->
+      <div class="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
+        <div>
+          <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[#8E5A82]">Catálogo & Simulador</span>
+          <h2 class="mt-1.5 text-2xl font-bold tracking-tight text-atelier-ink sm:text-4xl">
+            Selecione os serviços por <span class="font-serif text-[1.12em] italic text-[#8E5A82]">especialidade</span>
+          </h2>
+          <p class="mt-2 text-sm text-atelier-muted">
+            Cada frente possui sua assinatura cromática para facilitar a visualização do equilíbrio entre técnica, estética e operação.
+          </p>
+        </div>
+
+        <!-- Campo de Busca -->
+        <div class="relative w-full lg:w-80">
+          <i data-lucide="search" class="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-atelier-muted"></i>
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Buscar serviço ou escopo..."
+            class="w-full rounded-full border border-atelier-border bg-white py-3 pl-11 pr-4 text-sm text-atelier-ink placeholder-atelier-muted/70 shadow-card transition focus:border-[#8E5A82] focus:outline-none"
+          />
+        </div>
+      </div>
+
+      <!-- Barra de Filtro das 6 Categorias (Com Indicador Cromático) -->
+      <div id="category-filters" class="mt-8 flex flex-wrap gap-2.5" role="tablist">
+        <!-- Renderizado dinamicamente via JS -->
+      </div>
+
+      <!-- Banner Contextual da Categoria Ativa -->
+      <div id="category-context-banner" class="mt-6">
+        <!-- Renderizado dinamicamente via JS -->
+      </div>
+
+      <!-- Grid Principal: Catálogo (8 col) + Simulador Sticky (4 col) -->
+      <div class="mt-8 grid gap-8 lg:grid-cols-12 lg:items-start">
+
+        <!-- Lista/Cards de Serviços -->
+        <div class="lg:col-span-8">
+          <div id="services-container" class="grid gap-4 sm:grid-cols-2">
+            <!-- Cards renderizados via JS -->
+          </div>
+
+          <!-- Estado Vazio na Busca -->
+          <div id="empty-state" class="hidden rounded-3xl border border-atelier-border bg-white p-12 text-center shadow-card">
+            <i data-lucide="search-x" class="mx-auto h-9 w-9 text-atelier-muted"></i>
+            <h3 class="mt-3 text-base font-bold text-atelier-ink">Nenhum serviço encontrado</h3>
+            <p class="mt-1 text-sm text-atelier-muted">Tente buscar outro termo ou exiba todas as 6 categorias.</p>
+            <button onclick="resetFilters()" class="mt-4 rounded-full border border-atelier-border bg-atelier-bg px-5 py-2 text-xs font-semibold text-atelier-ink transition hover:border-[#8E5A82]">
+              Mostrar todos os 29 serviços
+            </button>
+          </div>
+        </div>
+
+        <!-- Simulador Sticky no Desktop -->
+        <aside id="desktop-simulator-wrapper" class="hidden lg:sticky lg:top-24 lg:col-span-4 lg:block">
+          <div id="simulator-desktop-slot"></div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Barra Flutuante Mobile para o Simulador -->
+  <div class="fixed inset-x-0 bottom-0 z-30 border-t border-atelier-border bg-white/95 px-4 py-3 shadow-float backdrop-blur-md lg:hidden">
+    <div class="mx-auto flex max-w-lg items-center justify-between gap-3">
+      <div>
+        <p class="text-[11px] font-medium text-atelier-muted">Escopo selecionado (<span id="mobile-bar-count">0</span>)</p>
+        <p id="mobile-bar-time" class="font-mono text-sm font-semibold text-[#8E5A82]">0 min</p>
+      </div>
+      <button
+        onclick="toggleMobileDrawer(true)"
+        class="inline-flex items-center gap-2 rounded-full bg-atelier-ink px-5 py-2.5 text-xs font-semibold text-white shadow-soft"
+      >
+        <i data-lucide="sliders-horizontal" class="h-3.5 w-3.5"></i>
+        <span>Revisar & Enviar</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Drawer Mobile do Simulador -->
+  <div id="mobile-simulator-drawer" class="fixed inset-0 z-50 hidden lg:hidden" role="dialog" aria-modal="true">
+    <div onclick="toggleMobileDrawer(false)" class="fixed inset-0 bg-[#272325]/40 backdrop-blur-xs"></div>
+    <div class="fixed inset-x-0 bottom-0 max-h-[90vh] overflow-y-auto rounded-t-3xl border-t border-atelier-border bg-atelier-bg p-5 shadow-float">
+      <div class="mb-3 flex items-center justify-between">
+        <span class="font-mono text-xs font-semibold uppercase tracking-wider text-atelier-muted">Simulador Ublix</span>
+        <button onclick="toggleMobileDrawer(false)" class="rounded-full border border-atelier-border bg-white p-2 text-atelier-ink">
+          <i data-lucide="x" class="h-4 w-4"></i>
+        </button>
+      </div>
+      <div id="simulator-mobile-slot"></div>
+    </div>
+  </div>
+
+  <!-- Vitrine de Portfólio & Cases com Presets -->
+  <section id="portfolio" class="border-t border-atelier-border bg-white py-16 sm:py-24">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+        <div>
+          <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[#C66D77]">Portfólio & Cases</span>
+          <h2 class="mt-1.5 text-2xl font-bold tracking-tight text-atelier-ink sm:text-4xl">
+            Impacto real sem precisar <span class="font-serif text-[1.12em] italic text-[#C66D77]">recomeçar do zero</span>
+          </h2>
+        </div>
+        <p class="max-w-md text-sm text-atelier-muted">
+          Explore cenários reais e clique em <strong class="font-semibold text-atelier-ink">"Carregar escopo parecido no simulador"</strong> para testar uma combinação pronta.
+        </p>
+      </div>
+
+      <div class="mt-12 grid gap-8 md:grid-cols-3">
+
+        <!-- Case 1: E-commerce Editorial & Moda -->
+        <article class="group flex flex-col overflow-hidden rounded-3xl border border-atelier-border bg-atelier-bg/60 shadow-card transition hover:shadow-soft">
+          <div class="relative aspect-video w-full overflow-hidden bg-[#F8F2F6]">
+            <img
+              src="https://placehold.co/800x450/F8F2F6/8E5A82?text=E-commerce+Editorial+%26+Moda"
+              alt="Case E-commerce Editorial e Moda"
+              onerror="this.src='https://placehold.co/800x450/FAF8F6/272325?text=Ublix+Moda'"
+              class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+            />
+            <span class="absolute top-3.5 left-3.5 rounded-full border border-[#8E5A82]/25 bg-white/95 px-3 py-1 text-[11px] font-semibold text-[#8E5A82] backdrop-blur">
+              E-commerce Editorial & Moda
+            </span>
+          </div>
+
+          <div class="flex flex-1 flex-col p-6">
+            <h3 class="text-lg font-bold text-atelier-ink">Curadoria Visual, Categorias & Jornada Mobile</h3>
+
+            <div class="mt-3.5 space-y-2 rounded-2xl border border-atelier-border bg-white p-3.5 text-xs">
+              <p class="text-atelier-muted"><strong class="text-atelier-ink">Antes:</strong> Coleções misturadas, banners desalinhados no celular e textos pouco legíveis.</p>
+              <p class="text-atelier-muted"><strong class="text-[#8E5A82]">Depois:</strong> Menus intuitivos, hierarquia elegante, banners adaptados e leitura fluida no mobile.</p>
+            </div>
+
+            <div class="mt-4 flex flex-wrap gap-1.5">
+              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: #F8F2F6; color: #8E5A82;">Organização de categorias</span>
+              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: #FDF3F4; color: #C66D77;">Ajustes de banners</span>
+              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: #F1F6F8; color: #5B8599;">Responsividade</span>
+            </div>
+
+            <div class="mt-6 pt-2">
+              <button
+                onclick="loadPreset(['cat2-2', 'cat2-4', 'cat3-1', 'cat3-3', 'cat1-2'], 'Escopo E-commerce Editorial & Moda carregado!')"
+                class="flex w-full items-center justify-center gap-2 rounded-full border border-[#8E5A82]/35 bg-white px-4 py-2.5 text-xs font-semibold text-[#8E5A82] transition hover:bg-[#8E5A82] hover:text-white"
+              >
+                <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i>
+                Carregar escopo parecido no simulador
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Case 2: Catálogo & Loja Especializada -->
+        <article class="group flex flex-col overflow-hidden rounded-3xl border border-atelier-border bg-atelier-bg/60 shadow-card transition hover:shadow-soft">
+          <div class="relative aspect-video w-full overflow-hidden bg-[#FAF5EE]">
+            <img
+              src="https://placehold.co/800x450/FAF5EE/B58246?text=Cat%C3%A1logo+%26+Loja+Especializada"
+              alt="Case Catálogo e Loja Especializada"
+              onerror="this.src='https://placehold.co/800x450/FAF8F6/272325?text=Ublix+Catalogo'"
+              class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+            />
+            <span class="absolute top-3.5 left-3.5 rounded-full border border-[#B58246]/25 bg-white/95 px-3 py-1 text-[11px] font-semibold text-[#B58246] backdrop-blur">
+              Catálogo & Loja Especializada
+            </span>
+          </div>
+
+          <div class="flex flex-1 flex-col p-6">
+            <h3 class="text-lg font-bold text-atelier-ink">Padronização de Produtos, Filtros & Checkout</h3>
+
+            <div class="mt-3.5 space-y-2 rounded-2xl border border-atelier-border bg-white p-3.5 text-xs">
+              <p class="text-atelier-muted"><strong class="text-atelier-ink">Antes:</strong> Fichas de produtos incompletas, filtros confusos e abandono na etapa final.</p>
+              <p class="text-atelier-muted"><strong class="text-[#B58246]">Depois:</strong> Catálogo padronizado, filtros lógicos por atributo e fluxo de checkout limpo.</p>
+            </div>
+
+            <div class="mt-4 flex flex-wrap gap-1.5">
+              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: #FAF5EE; color: #B58246;">Revisão de produtos</span>
+              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: #FAF5EE; color: #B58246;">Ajustes em filtros</span>
+              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: #FAF5EE; color: #B58246;">Revisão de checkout</span>
+            </div>
+
+            <div class="mt-6 pt-2">
+              <button
+                onclick="loadPreset(['cat5-2', 'cat5-3', 'cat5-4', 'cat2-3'], 'Escopo Catálogo & Loja Especializada carregado!')"
+                class="flex w-full items-center justify-center gap-2 rounded-full border border-[#B58246]/35 bg-white px-4 py-2.5 text-xs font-semibold text-[#B58246] transition hover:bg-[#B58246] hover:text-white"
+              >
+                <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i>
+                Carregar escopo parecido no simulador
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Case 3: Site Institucional & Serviços -->
+        <article class="group flex flex-col overflow-hidden rounded-3xl border border-atelier-border bg-atelier-bg/60 shadow-card transition hover:shadow-soft">
+          <div class="relative aspect-video w-full overflow-hidden bg-[#F1F7F4]">
+            <img
+              src="https://placehold.co/800x450/F1F7F4/4F8A74?text=Site+Institucional+%26+Servi%C3%A7os"
+              alt="Case Site Institucional e Serviços"
+              onerror="this.src='https://placehold.co/800x450/FAF8F6/272325?text=Ublix+Institucional'"
+              class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+            />
+            <span class="absolute top-3.5 left-3.5 rounded-full border border-[#4F8A74]/25 bg-white/95 px-3 py-1 text-[11px] font-semibold text-[#4F8A74] backdrop-blur">
+              Site Institucional & Serviços
+            </span>
+          </div>
+
+          <div class="flex flex-1 flex-col p-6">
+            <h3 class="text-lg font-bold text-atelier-ink">Estrutura Semântica, Páginas Institucionais & Revisão</h3>
+
+            <div class="mt-3.5 space-y-2 rounded-2xl border border-atelier-border bg-white p-3.5 text-xs">
+              <p class="text-atelier-muted"><strong class="text-atelier-ink">Antes:</strong> Páginas institucionais desatualizadas, headings sem hierarquia e imagens pesadas.</p>
+              <p class="text-atelier-muted"><strong class="text-[#4F8A74]">Depois:</strong> Estrutura H1–H3 organizada, SEO On-Page técnico limpo e navegação institucional clara.</p>
+            </div>
+
+            <div class="mt-4 flex flex-wrap gap-1.5">
+              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: #F1F7F4; color: #4F8A74;">Headings & SEO On-Page</span>
+              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: #F8F2F6; color: #8E5A82;">Páginas institucionais</span>
+              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: #F3F3F9; color: #6D6DA8;">Análise técnica</span>
+            </div>
+
+            <div class="mt-6 pt-2">
+              <button
+                onclick="loadPreset(['cat2-5', 'cat4-1', 'cat4-3', 'cat4-6', 'cat6-1'], 'Escopo Site Institucional & Serviços carregado!')"
+                class="flex w-full items-center justify-center gap-2 rounded-full border border-[#4F8A74]/35 bg-white px-4 py-2.5 text-xs font-semibold text-[#4F8A74] transition hover:bg-[#4F8A74] hover:text-white"
+              >
+                <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i>
+                Carregar escopo parecido no simulador
+              </button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção de Contato Direto -->
+  <section id="contato" class="border-t border-atelier-border bg-atelier-bg py-16 pb-28 sm:py-24 sm:pb-24">
+    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <div class="rounded-3xl border border-atelier-border bg-white p-8 shadow-soft sm:p-12">
+        <div class="text-center">
+          <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[#8E5A82]">Contato • ublix.com.br</span>
+          <h2 class="mt-2 text-2xl font-bold tracking-tight text-atelier-ink sm:text-4xl">
+            Vamos conversar sobre o <span class="font-serif text-[1.12em] italic text-[#8E5A82]">próximo passo</span> do seu site?
+          </h2>
+          <p class="mx-auto mt-3 max-w-xl text-sm text-atelier-muted sm:text-base">
+            Envie o endereço do seu projeto e o que gostaria de organizar ou ajustar. Retorno com clareza e sem compromisso.
+          </p>
+        </div>
+
+        <form onsubmit="handleDirectContact(event)" class="mx-auto mt-8 max-w-xl space-y-4">
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label for="contact-name" class="block text-xs font-semibold text-atelier-ink">Seu nome</label>
+              <input
+                type="text"
+                id="contact-name"
+                required
+                placeholder="Ex: Camila Rocha"
+                class="mt-1.5 w-full rounded-2xl border border-atelier-border bg-atelier-bg/60 px-4 py-3 text-sm text-atelier-ink placeholder-atelier-muted/60 focus:border-[#8E5A82] focus:bg-white focus:outline-none"
+              />
+            </div>
+            <div>
+              <label for="contact-site" class="block text-xs font-semibold text-atelier-ink">Seu site ou loja</label>
+              <input
+                type="text"
+                id="contact-site"
+                required
+                placeholder="ex: suamarca.com.br"
+                class="mt-1.5 w-full rounded-2xl border border-atelier-border bg-atelier-bg/60 px-4 py-3 text-sm text-atelier-ink placeholder-atelier-muted/60 focus:border-[#8E5A82] focus:bg-white focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="contact-note" class="block text-xs font-semibold text-atelier-ink">O que você gostaria de melhorar?</label>
+            <textarea
+              id="contact-note"
+              rows="3"
+              required
+              placeholder="Descreva brevemente suas prioridades técnicas, visuais ou de e-commerce..."
+              class="mt-1.5 w-full rounded-2xl border border-atelier-border bg-atelier-bg/60 px-4 py-3 text-sm text-atelier-ink placeholder-atelier-muted/60 focus:border-[#8E5A82] focus:bg-white focus:outline-none"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="flex w-full items-center justify-center gap-2 rounded-full bg-atelier-ink px-6 py-3.5 text-sm font-semibold text-white shadow-soft transition hover:bg-[#3B3538]"
+          >
+            <i data-lucide="message-circle" class="h-4 w-4 text-[#D8B4CE]"></i>
+            <span>Iniciar Conversa no WhatsApp</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rodapé Elegante -->
+  <footer class="border-t border-atelier-border bg-white py-10 pb-24 lg:pb-10">
+    <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 text-center sm:flex-row sm:px-6 sm:text-left lg:px-8">
+      <div>
+        <div class="flex items-center justify-center gap-1.5 sm:justify-start">
+          <span class="font-serif text-xl font-bold italic text-[#8E5A82]">u</span>
+          <span class="text-base font-bold text-atelier-ink">ublix<span class="font-mono text-xs font-medium text-[#8E5A82]">.com.br</span></span>
+        </div>
+        <p class="mt-1 text-xs text-atelier-muted">
+          Manutenção Técnica • Organização & Usabilidade • Ajustes Visuais & UX • SEO Estrutural • E-commerce
+        </p>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-6 text-xs font-medium text-atelier-muted">
+        <a href="#metodologia" class="hover:text-atelier-ink">Metodologia</a>
+        <a href="#catalogo" class="hover:text-atelier-ink">Serviços & Simulador</a>
+        <a href="#portfolio" class="hover:text-atelier-ink">Portfólio</a>
+        <a href="#contato" class="hover:text-atelier-ink">Contato</a>
+      </div>
+
+      <p class="font-mono text-xs text-atelier-muted">
+        © <span id="current-year"></span> ublix.com.br
+      </p>
+    </div>
+  </footer>
+
+  <!-- Lógica JavaScript Pura (ES6+) -->
+  <script>
+    // Constante fácil de editar com o número oficial de WhatsApp da Ublix
+    const WHATSAPP_NUMBER = '5511999999999';
+
+    /**
+     * PALETA PASTEL-MINERAL / JOALHERIA CONTEMPORÂNEA DAS 6 CATEGORIAS
+     */
+    const CATEGORIES = [
+      {
+        id: 'cat1',
+        shortName: 'Manutenção Técnica',
+        fullTitle: 'CATEGORIA 1 — MANUTENÇÃO TÉCNICA',
+        subtitle: 'Serviços ligados à estabilidade e funcionamento do site / e-commerce.',
+        badge: 'Estabilidade & Código',
+        icon: 'wrench',
+        accent: '#5B8599', // Azul Névoa / Ardósia Suave
+        tint: '#F1F6F8',
+        borderTint: '#D5E3E9',
+        notice: null
+      },
+      {
+        id: 'cat2',
+        shortName: 'Organização & Usabilidade',
+        fullTitle: 'CATEGORIA 2 — ORGANIZAÇÃO & USABILIDADE (SEU DIFERENCIAL)',
+        subtitle: 'Aqui mora seu valor silencioso.',
+        badge: 'Seu Diferencial',
+        icon: 'compass',
+        accent: '#8E5A82', // Ameixa / Lavanda Profunda
+        tint: '#F8F2F6',
+        borderTint: '#E6D4E1',
+        notice: null
+      },
+      {
+        id: 'cat3',
+        shortName: 'Ajustes Visuais & UX',
+        fullTitle: 'CATEGORIA 3 — AJUSTES VISUAIS & UX',
+        subtitle: 'Sem redesign completo. Sem agência.',
+        badge: 'Estética & UX',
+        icon: 'sparkles',
+        accent: '#C66D77', // Terracota Rosé / Blush Queimado
+        tint: '#FDF3F4',
+        borderTint: '#F2D6D9',
+        notice: null
+      },
+      {
+        id: 'cat4',
+        shortName: 'SEO Técnico & On-Page',
+        fullTitle: 'CATEGORIA 4 — SEO TÉCNICO & ON-PAGE',
+        subtitle: 'Estrutura semântica e otimização técnica para mecanismos de busca.',
+        badge: 'SEO Estrutural',
+        icon: 'search',
+        accent: '#4F8A74', // Verde Sálvia / Eucalipto
+        tint: '#F1F7F4',
+        borderTint: '#D2E5DD',
+        notice: 'Atuo com SEO técnico e estrutural, não com posicionamento garantido.'
+      },
+      {
+        id: 'cat5',
+        shortName: 'Suporte & E-commerce',
+        fullTitle: 'CATEGORIA 5 — SUPORTE & OPERAÇÃO DE E-COMMERCE',
+        subtitle: 'Rotina real. Nada glamouroso. Muito valioso.',
+        badge: 'Operação Real',
+        icon: 'shopping-bag',
+        accent: '#B58246', // Dourado Champanhe / Âmbar Mel
+        tint: '#FAF5EE',
+        borderTint: '#EADCC9',
+        notice: null
+      },
+      {
+        id: 'cat6',
+        shortName: 'Análise & Acompanhamento',
+        fullTitle: 'CATEGORIA 6 — ANÁLISE & ACOMPANHAMENTO',
+        subtitle: 'Aqui entra a base de tudo.',
+        badge: 'Diagnóstico & Ciclo',
+        icon: 'bar-chart-3',
+        accent: '#6D6DA8', // Malva / Índigo Suave
+        tint: '#F3F3F9',
+        borderTint: '#DADAE9',
+        notice: null
+      }
+    ];
+
+    /**
+     * TODOS OS 29 SERVIÇOS EXATOS DA PLANILHA
+     */
+    const SERVICES = [
+      // Categoria 1 — Manutenção Técnica
+      { id: 'cat1-1', categoryId: 'cat1', name: 'Correção de bugs visuais', scope: 'Quebras de layout, erros de CSS, ajustes pontuais', timeLabel: '30min – 1h', minMinutes: 30, maxMinutes: 60 },
+      { id: 'cat1-2', categoryId: 'cat1', name: 'Ajustes de responsividade', scope: 'Mobile / tablet', timeLabel: '45min – 1h30', minMinutes: 45, maxMinutes: 90 },
+      { id: 'cat1-3', categoryId: 'cat1', name: 'Ajustes em HTML/CSS/JS', scope: 'Pequenas melhorias ou correções', timeLabel: '1h – 2h', minMinutes: 60, maxMinutes: 120 },
+      { id: 'cat1-4', categoryId: 'cat1', name: 'Atualizações simples', scope: 'Tema, plugins (sem conflito grave)', timeLabel: '30min – 1h', minMinutes: 30, maxMinutes: 60 },
+      { id: 'cat1-5', categoryId: 'cat1', name: 'Revisão técnica geral', scope: 'Olhar preventivo', timeLabel: '1h', minMinutes: 60, maxMinutes: 60 },
+
+      // Categoria 2 — Organização & Usabilidade (Seu Diferencial)
+      { id: 'cat2-1', categoryId: 'cat2', name: 'Organização de páginas', scope: 'Hierarquia, menus, fluxo', timeLabel: '1h – 2h', minMinutes: 60, maxMinutes: 120 },
+      { id: 'cat2-2', categoryId: 'cat2', name: 'Organização de categorias', scope: 'Lógica, clareza, navegação', timeLabel: '1h – 2h', minMinutes: 60, maxMinutes: 120 },
+      { id: 'cat2-3', categoryId: 'cat2', name: 'Padronização de conteúdo', scope: 'Títulos, textos, estrutura', timeLabel: '1h – 2h', minMinutes: 60, maxMinutes: 120 },
+      { id: 'cat2-4', categoryId: 'cat2', name: 'Ajustes de jornada do usuário', scope: 'Redução de confusão', timeLabel: '1h – 2h', minMinutes: 60, maxMinutes: 120 },
+      { id: 'cat2-5', categoryId: 'cat2', name: 'Revisão de páginas institucionais', scope: 'Sobre, contato, políticas', timeLabel: '45min – 1h30', minMinutes: 45, maxMinutes: 90 },
+
+      // Categoria 3 — Ajustes Visuais & UX
+      { id: 'cat3-1', categoryId: 'cat3', name: 'Ajustes visuais pontuais', scope: 'Espaçamento, tipografia, cores', timeLabel: '45min – 1h30', minMinutes: 45, maxMinutes: 90 },
+      { id: 'cat3-2', categoryId: 'cat3', name: 'Melhorias de legibilidade', scope: 'Textos, contraste', timeLabel: '30min – 1h', minMinutes: 30, maxMinutes: 60 },
+      { id: 'cat3-3', categoryId: 'cat3', name: 'Ajustes de banners', scope: 'Posicionamento e adaptação', timeLabel: '30min – 1h', minMinutes: 30, maxMinutes: 60 },
+      { id: 'cat3-4', categoryId: 'cat3', name: 'Revisão de consistência visual', scope: 'Site como um todo', timeLabel: '1h – 2h', minMinutes: 60, maxMinutes: 120 },
+
+      // Categoria 4 — SEO Técnico & On-Page
+      { id: 'cat4-1', categoryId: 'cat4', name: 'Revisão de títulos (title)', scope: 'SEO on-page', timeLabel: '30min – 1h', minMinutes: 30, maxMinutes: 60 },
+      { id: 'cat4-2', categoryId: 'cat4', name: 'Revisão de descrições (meta)', scope: 'SEO on-page', timeLabel: '30min – 1h', minMinutes: 30, maxMinutes: 60 },
+      { id: 'cat4-3', categoryId: 'cat4', name: 'Estrutura de headings (H1–H3)', scope: 'Organização semântica', timeLabel: '45min – 1h', minMinutes: 45, maxMinutes: 60 },
+      { id: 'cat4-4', categoryId: 'cat4', name: 'URLs amigáveis', scope: 'Ajustes e padronização', timeLabel: '30min – 1h', minMinutes: 30, maxMinutes: 60 },
+      { id: 'cat4-5', categoryId: 'cat4', name: 'SEO técnico básico', scope: 'Indexação, estrutura geral', timeLabel: '1h – 2h', minMinutes: 60, maxMinutes: 120 },
+      { id: 'cat4-6', categoryId: 'cat4', name: 'Revisão de imagens', scope: 'Alt text, peso', timeLabel: '45min – 1h30', minMinutes: 45, maxMinutes: 90 },
+
+      // Categoria 5 — Suporte & Operação de E-commerce
+      { id: 'cat5-1', categoryId: 'cat5', name: 'Cadastro de produtos', scope: 'Conteúdo + organização', timeLabel: '10–20min por produto', minMinutes: 10, maxMinutes: 20, perUnit: true, defaultQty: 5 },
+      { id: 'cat5-2', categoryId: 'cat5', name: 'Revisão de produtos existentes', scope: 'Correção e padronização', timeLabel: '5–15min por produto', minMinutes: 5, maxMinutes: 15, perUnit: true, defaultQty: 10 },
+      { id: 'cat5-3', categoryId: 'cat5', name: 'Ajustes em filtros', scope: 'Usabilidade e lógica', timeLabel: '45min – 1h30', minMinutes: 45, maxMinutes: 90 },
+      { id: 'cat5-4', categoryId: 'cat5', name: 'Revisão de checkout', scope: 'Fluxo e clareza', timeLabel: '45min – 1h', minMinutes: 45, maxMinutes: 60 },
+      { id: 'cat5-5', categoryId: 'cat5', name: 'Suporte técnico operacional', scope: 'Demandas do dia a dia', timeLabel: 'variável', minMinutes: 0, maxMinutes: 0, isVariable: true },
+
+      // Categoria 6 — Análise & Acompanhamento
+      { id: 'cat6-1', categoryId: 'cat6', name: 'Análise técnica inicial (paga)', scope: 'Checklist completo', timeLabel: '1h30 – 2h', minMinutes: 90, maxMinutes: 120 },
+      { id: 'cat6-2', categoryId: 'cat6', name: 'Análise mensal de evolução', scope: 'O que melhorar', timeLabel: '45min – 1h', minMinutes: 45, maxMinutes: 60 },
+      { id: 'cat6-3', categoryId: 'cat6', name: 'Relatório mensal', scope: 'Transparência', timeLabel: '30min', minMinutes: 30, maxMinutes: 30 },
+      { id: 'cat6-4', categoryId: 'cat6', name: 'Planejamento de prioridades', scope: 'Próximo ciclo', timeLabel: '30m', minMinutes: 30, maxMinutes: 30 }
+    ];
+
+    // Estado da Aplicação
+    let activeCategory = 'all';
+    let searchQuery = '';
+    let clientSiteUrl = '';
+    const selectedServices = new Map(); // Map<serviceId, { qty: number }>
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('current-year').textContent = new Date().getFullYear();
+
+      renderCategoryFilters();
+      renderContextBanner();
+      renderServices();
+      renderSimulators();
+
+      document.getElementById('search-input').addEventListener('input', (e) => {
+        searchQuery = e.target.value.trim().toLowerCase();
+        renderServices();
+      });
+
+      lucide.createIcons();
+    });
+
+    function getCategory(catId) {
+      return CATEGORIES.find(c => c.id === catId);
+    }
+
+    // Renderiza abas das 6 categorias com paleta pastel-mineral
+    function renderCategoryFilters() {
+      const container = document.getElementById('category-filters');
+      const isAll = activeCategory === 'all';
+
+      let html = `
+        <button
+          onclick="selectCategory('all')"
+          class="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-semibold transition sm:text-sm ${
+            isAll
+              ? 'border-atelier-ink bg-atelier-ink text-white shadow-card'
+              : 'border-atelier-border bg-white text-atelier-muted hover:border-atelier-ink/30 hover:text-atelier-ink'
+          }"
+        >
+          <span>Todas (${SERVICES.length})</span>
+        </button>
+      `;
+
+      CATEGORIES.forEach(cat => {
+        const active = activeCategory === cat.id;
+        const count = SERVICES.filter(s => s.categoryId === cat.id).length;
+
+        const styleAttr = active
+          ? `background-color: ${cat.tint}; border-color: ${cat.accent}; color: #272325;`
+          : '';
+
+        html += `
+          <button
+            onclick="selectCategory('${cat.id}')"
+            style="${styleAttr}"
+            class="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-semibold transition sm:text-sm ${
+              active
+                ? 'shadow-card'
+                : 'border-atelier-border bg-white text-atelier-muted hover:text-atelier-ink'
+            }"
+          >
+            <span class="h-2.5 w-2.5 rounded-full" style="background-color: ${cat.accent};"></span>
+            <span>${cat.shortName}</span>
+            <span class="rounded-full bg-atelier-bg px-2 py-0.5 font-mono text-[11px] text-atelier-muted">${count}</span>
+          </button>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function selectCategory(catId) {
+      activeCategory = catId;
+      renderCategoryFilters();
+      renderContextBanner();
+      renderServices();
+    }
+
+    function resetFilters() {
+      activeCategory = 'all';
+      searchQuery = '';
+      document.getElementById('search-input').value = '';
+      renderCategoryFilters();
+      renderContextBanner();
+      renderServices();
+    }
+
+    // Banner Contextual da Categoria Selecionada
+    function renderContextBanner() {
+      const box = document.getElementById('category-context-banner');
+
+      if (activeCategory === 'all') {
+        box.innerHTML = `
+          <div class="flex flex-col justify-between gap-3 rounded-3xl border border-atelier-border bg-white p-5 shadow-card sm:flex-row sm:items-center">
+            <div>
+              <h3 class="text-sm font-bold text-atelier-ink sm:text-base">Visão Geral das 6 Especialidades</h3>
+              <p class="mt-0.5 text-xs text-atelier-muted sm:text-sm">Combine entregas pontuais de diferentes categorias no simulador ao lado.</p>
+            </div>
+            <div class="inline-flex w-fit items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-semibold" style="background-color: #F1F7F4; border-color: #D2E5DD; color: #4F8A74;">
+              <i data-lucide="shield-check" class="h-3.5 w-3.5 shrink-0"></i>
+              <span>SEO técnico e estrutural (sem posicionamento garantido)</span>
+            </div>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      const cat = getCategory(activeCategory);
+      if (!cat) return;
+
+      const noticeHtml = cat.notice
+        ? `<div class="mt-3.5 flex items-center gap-2.5 rounded-2xl border px-4 py-3 text-xs font-semibold sm:text-sm" style="background-color: ${cat.tint}; border-color: ${cat.borderTint}; color: ${cat.accent};">
+             <i data-lucide="lock" class="h-4 w-4 shrink-0"></i>
+             <span>${cat.notice}</span>
+           </div>`
+        : '';
+
+      box.innerHTML = `
+        <div class="animate-fade-slide rounded-3xl border border-atelier-border bg-white p-6 shadow-card" style="border-left: 4px solid ${cat.accent};">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-3">
+              <span class="flex h-9 w-9 items-center justify-center rounded-2xl" style="background-color: ${cat.tint}; color: ${cat.accent};">
+                <i data-lucide="${cat.icon}" class="h-4 w-4"></i>
+              </span>
+              <h3 class="text-base font-bold text-atelier-ink sm:text-lg">${cat.fullTitle}</h3>
+            </div>
+            <span class="rounded-full border px-3 py-1 text-xs font-semibold" style="background-color: ${cat.tint}; border-color: ${cat.borderTint}; color: ${cat.accent};">
+              ${cat.badge}
+            </span>
+          </div>
+          <p class="mt-2.5 text-sm text-atelier-muted">${cat.subtitle}</p>
+          ${noticeHtml}
+        </div>
+      `;
+      lucide.createIcons();
+    }
+
+    // Renderiza os 29 Serviços com Assinatura Cromática
+    function renderServices() {
+      const container = document.getElementById('services-container');
+      const emptyState = document.getElementById('empty-state');
+
+      const filtered = SERVICES.filter(s => {
+        const matchCat = activeCategory === 'all' || s.categoryId === activeCategory;
+        const matchText =
+          !searchQuery ||
+          s.name.toLowerCase().includes(searchQuery) ||
+          s.scope.toLowerCase().includes(searchQuery);
+        return matchCat && matchText;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        lucide.createIcons();
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+
+      container.innerHTML = filtered.map(service => {
+        const cat = getCategory(service.categoryId);
+        const isSelected = selectedServices.has(service.id);
+
+        const cardStyle = isSelected
+          ? `border-color: ${cat.accent}; border-top: 3px solid ${cat.accent}; background-color: ${cat.tint};`
+          : `border-top: 3px solid ${cat.accent};`;
+
+        const btnStyle = isSelected
+          ? `background-color: ${cat.accent}; border-color: ${cat.accent}; color: #FFFFFF;`
+          : `border-color: #EBE5E0; color: #272325;`;
+
+        return `
+          <div
+            style="${cardStyle}"
+            class="animate-fade-slide flex flex-col justify-between rounded-3xl border border-atelier-border bg-white p-5 shadow-card transition hover:shadow-soft"
+          >
+            <div>
+              <div class="flex items-center justify-between gap-2">
+                <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold" style="color: ${cat.accent};">
+                  <span class="h-2 w-2 rounded-full" style="background-color: ${cat.accent};"></span>
+                  ${cat.shortName}
+                </span>
+                <span
+                  style="background-color: ${cat.tint}; border-color: ${cat.borderTint}; color: ${cat.accent};"
+                  class="inline-flex shrink-0 items-center gap-1 rounded-full border px-2.5 py-0.5 font-mono text-[11px] font-semibold"
+                >
+                  <i data-lucide="clock" class="h-3 w-3"></i>
+                  ${service.timeLabel}
+                </span>
+              </div>
+
+              <h4 class="mt-3 text-base font-bold text-atelier-ink leading-snug">
+                ${service.name}
+              </h4>
+
+              <p class="mt-2 text-xs leading-relaxed text-atelier-muted sm:text-sm">
+                <span class="font-semibold text-atelier-ink/80">O que envolve:</span> ${service.scope}
+              </p>
+
+              ${
+                service.categoryId === 'cat4'
+                  ? `<p class="mt-2.5 flex items-center gap-1.5 text-[11px] font-medium" style="color: #4F8A74;">
+                       <i data-lucide="shield-alert" class="h-3.5 w-3.5 shrink-0"></i>
+                       SEO técnico e estrutural (sem posicionamento garantido)
+                     </p>`
+                  : ''
+              }
+            </div>
+
+            <div class="mt-5 pt-2">
+              <button
+                onclick="toggleService('${service.id}')"
+                style="${btnStyle}"
+                class="flex w-full items-center justify-center gap-2 rounded-full border bg-white px-4 py-2.5 text-xs font-semibold transition hover:opacity-90"
+              >
+                <i data-lucide="${isSelected ? 'check' : 'plus'}" class="h-3.5 w-3.5"></i>
+                <span>${isSelected ? 'Incluído no Escopo' : 'Adicionar ao Escopo'}</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    // Alterna seleção de serviço no simulador
+    function toggleService(serviceId) {
+      const srv = SERVICES.find(s => s.id === serviceId);
+      if (!srv) return;
+
+      if (selectedServices.has(serviceId)) {
+        selectedServices.delete(serviceId);
+      } else {
+        selectedServices.set(serviceId, { qty: srv.perUnit ? srv.defaultQty : 1 });
+        const cat = getCategory(srv.categoryId);
+        showToast(`"${srv.name}" adicionado ao escopo.`, cat ? cat.accent : '#8E5A82');
+      }
+
+      renderServices();
+      renderSimulators();
+    }
+
+    // Ajuste de quantidade para itens por produto
+    function changeUnitQty(serviceId, delta) {
+      const item = selectedServices.get(serviceId);
+      if (!item) return;
+      const next = Math.max(1, Math.min(500, item.qty + delta));
+      selectedServices.set(serviceId, { qty: next });
+      renderSimulators();
+    }
+
+    function setUnitQtyInput(serviceId, val) {
+      const item = selectedServices.get(serviceId);
+      if (!item) return;
+      const parsed = parseInt(val, 10);
+      const clean = isNaN(parsed) || parsed < 1 ? 1 : Math.min(500, parsed);
+      selectedServices.set(serviceId, { qty: clean });
+      renderSimulators();
+    }
+
+    // Carrega preset de um case do portfólio
+    function loadPreset(ids, toastMsg) {
+      selectedServices.clear();
+      ids.forEach(id => {
+        const srv = SERVICES.find(s => s.id === id);
+        if (srv) {
+          selectedServices.set(id, { qty: srv.perUnit ? srv.defaultQty : 1 });
+        }
+      });
+      renderServices();
+      renderSimulators();
+      showToast(toastMsg, '#8E5A82');
+      openOrScrollSimulator();
+    }
+
+    function clearScope() {
+      selectedServices.clear();
+      renderServices();
+      renderSimulators();
+      showToast('Escopo limpo.', '#6E6568');
+    }
+
+    function formatMinutes(total) {
+      if (total <= 0) return '0 min';
+      const h = Math.floor(total / 60);
+      const m = total % 60;
+      if (h === 0) return `${m}min`;
+      if (m === 0) return `${h}h`;
+      return `${h}h${m < 10 ? '0' + m : m}`;
+    }
+
+    function calculateStats() {
+      let count = 0;
+      let minTotal = 0;
+      let maxTotal = 0;
+      let hasVariable = false;
+      const categoryCounts = {};
+
+      selectedServices.forEach((meta, id) => {
+        const srv = SERVICES.find(s => s.id === id);
+        if (!srv) return;
+        count++;
+        categoryCounts[srv.categoryId] = (categoryCounts[srv.categoryId] || 0) + 1;
+
+        if (srv.isVariable) {
+          hasVariable = true;
+        } else if (srv.perUnit) {
+          minTotal += srv.minMinutes * meta.qty;
+          maxTotal += srv.maxMinutes * meta.qty;
+        } else {
+          minTotal += srv.minMinutes;
+          maxTotal += srv.maxMinutes;
+        }
+      });
+
+      let timeText = '0 min';
+      if (count > 0) {
+        if (minTotal === 0 && maxTotal === 0 && hasVariable) {
+          timeText = 'Variável (sob demanda)';
+        } else if (minTotal === maxTotal) {
+          timeText = `${formatMinutes(minTotal)}${hasVariable ? ' + variável' : ''}`;
+        } else {
+          timeText = `${formatMinutes(minTotal)} – ${formatMinutes(maxTotal)}${hasVariable ? ' +' : ''}`;
+        }
+      }
+
+      return { count, minTotal, maxTotal, hasVariable, timeText, categoryCounts };
+    }
+
+    // Constrói HTML do Simulador (Desktop Sticky & Drawer Mobile)
+    function buildSimulatorMarkup(prefix) {
+      const stats = calculateStats();
+
+      // Barra visual segmentada com as cores das categorias selecionadas
+      let proportionBarHtml = '';
+      if (stats.count > 0) {
+        const segments = CATEGORIES.filter(c => stats.categoryCounts[c.id] > 0)
+          .map(c => {
+            const pct = (stats.categoryCounts[c.id] / stats.count) * 100;
+            return `<div style="width: ${pct}%; background-color: ${c.accent};" class="h-full transition-all duration-300" title="${c.shortName}: ${stats.categoryCounts[c.id]}"></div>`;
+          })
+          .join('');
+
+        const legendItems = CATEGORIES.filter(c => stats.categoryCounts[c.id] > 0)
+          .map(c => `
+            <span class="inline-flex items-center gap-1 text-[10px] font-medium text-atelier-muted">
+              <span class="h-2 w-2 rounded-full" style="background-color: ${c.accent};"></span>
+              ${c.shortName.split(' ')[0]} (${stats.categoryCounts[c.id]})
+            </span>
+          `)
+          .join('');
+
+        proportionBarHtml = `
+          <div class="mt-3.5">
+            <div class="flex h-2 w-full overflow-hidden rounded-full bg-atelier-soft">
+              ${segments}
+            </div>
+            <div class="mt-2 flex flex-wrap gap-x-3 gap-y-1">
+              ${legendItems}
+            </div>
+          </div>
+        `;
+      }
+
+      // Lista de serviços selecionados
+      let listHtml = '';
+      if (stats.count === 0) {
+        listHtml = `
+          <div class="rounded-2xl border border-dashed border-atelier-border bg-atelier-bg/70 p-6 text-center">
+            <p class="text-sm font-semibold text-atelier-ink">Seu escopo está vazio</p>
+            <p class="mt-1 text-xs leading-relaxed text-atelier-muted">
+              Escolha os serviços ao lado para calcular a estimativa de horas e equilibrar as frentes de atuação.
+            </p>
+          </div>
+        `;
+      } else {
+        const rows = [];
+        selectedServices.forEach((meta, id) => {
+          const srv = SERVICES.find(s => s.id === id);
+          if (!srv) return;
+          const cat = getCategory(srv.categoryId);
+
+          const unitSelector = srv.perUnit
+            ? `
+              <div class="mt-2 flex items-center justify-between rounded-xl border border-atelier-border bg-white px-3 py-1.5">
+                <span class="text-[11px] font-medium text-atelier-muted">Qtd. produtos:</span>
+                <div class="flex items-center gap-1.5">
+                  <button onclick="changeUnitQty('${srv.id}', -1)" class="flex h-6 w-6 items-center justify-center rounded-full border border-atelier-border bg-atelier-bg text-xs font-bold text-atelier-ink hover:border-[#B58246]">-</button>
+                  <input
+                    type="number"
+                    min="1"
+                    max="500"
+                    value="${meta.qty}"
+                    onchange="setUnitQtyInput('${srv.id}', this.value)"
+                    class="w-11 rounded-lg border border-atelier-border bg-atelier-bg py-0.5 text-center font-mono text-xs font-semibold text-atelier-ink focus:border-[#B58246] focus:outline-none"
+                  />
+                  <button onclick="changeUnitQty('${srv.id}', 1)" class="flex h-6 w-6 items-center justify-center rounded-full border border-atelier-border bg-atelier-bg text-xs font-bold text-atelier-ink hover:border-[#B58246]">+</button>
+                </div>
+              </div>
+            `
+            : '';
+
+          rows.push(`
+            <div class="rounded-2xl border border-atelier-border bg-atelier-bg/60 p-3.5">
+              <div class="flex items-start justify-between gap-2">
+                <div class="min-w-0">
+                  <span
+                    style="background-color: ${cat.tint}; color: ${cat.accent};"
+                    class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold"
+                  >
+                    <span class="h-1.5 w-1.5 rounded-full" style="background-color: ${cat.accent};"></span>
+                    ${cat.shortName}
+                  </span>
+                  <p class="mt-1.5 text-xs font-bold text-atelier-ink leading-snug">${srv.name}</p>
+                  <p class="mt-0.5 font-mono text-[11px] text-atelier-muted">
+                    ${srv.perUnit ? `${formatMinutes(srv.minMinutes * meta.qty)} – ${formatMinutes(srv.maxMinutes * meta.qty)} (${meta.qty} un.)` : srv.timeLabel}
+                  </p>
+                </div>
+                <button
+                  onclick="toggleService('${srv.id}')"
+                  aria-label="Remover ${srv.name}"
+                  class="shrink-0 rounded-full p-1.5 text-atelier-muted transition hover:bg-white hover:text-[#C66D77]"
+                >
+                  <i data-lucide="trash-2" class="h-3.5 w-3.5"></i>
+                </button>
+              </div>
+              ${unitSelector}
+            </div>
+          `);
+        });
+        listHtml = rows.join('');
+      }
+
+      return `
+        <div class="rounded-3xl border border-atelier-border bg-white p-6 shadow-soft">
+          <div class="flex items-center justify-between border-b border-atelier-border pb-4">
+            <div class="flex items-center gap-2.5">
+              <div class="flex h-9 w-9 items-center justify-center rounded-2xl" style="background-color: #F8F2F6; color: #8E5A82;">
+                <i data-lucide="sliders-horizontal" class="h-4 w-4"></i>
+              </div>
+              <div>
+                <h3 class="text-base font-bold text-atelier-ink">Simulador de Escopo</h3>
+                <p class="text-[11px] text-atelier-muted">Estimativa personalizada</p>
+              </div>
+            </div>
+            ${
+              stats.count > 0
+                ? `<button onclick="clearScope()" class="text-xs font-semibold text-atelier-muted hover:text-[#C66D77]">Limpar</button>`
+                : ''
+            }
+          </div>
+
+          <!-- Barra de Proporção Visual por Categoria -->
+          ${proportionBarHtml}
+
+          <!-- Itens Selecionados -->
+          <div class="my-4 max-h-64 space-y-2.5 overflow-y-auto pr-1">
+            ${listHtml}
+          </div>
+
+          <!-- Resumo de Tempo -->
+          <div class="rounded-2xl border border-atelier-border bg-atelier-bg p-4">
+            <div class="flex items-center justify-between text-xs text-atelier-muted">
+              <span>Serviços selecionados:</span>
+              <span class="font-mono font-semibold text-atelier-ink">${stats.count} ${stats.count === 1 ? 'item' : 'itens'}</span>
+            </div>
+            <div class="mt-2.5 flex items-baseline justify-between border-t border-atelier-border pt-2.5">
+              <span class="text-xs font-semibold text-atelier-ink">Tempo estimado:</span>
+              <span class="font-mono text-base font-bold text-[#8E5A82]">${stats.timeText}</span>
+            </div>
+            ${
+              stats.hasVariable
+                ? `<p class="mt-2 rounded-xl px-2.5 py-1.5 text-[11px] font-medium" style="background-color: #FAF5EE; color: #B58246;">
+                     * Inclui suporte operacional de duração variável conforme demanda.
+                   </p>`
+                : ''
+            }
+          </div>
+
+          <!-- Domínio do Cliente (Opcional) -->
+          <div class="mt-4">
+            <label for="${prefix}-site-input" class="block text-[11px] font-semibold text-atelier-muted">
+              Seu domínio / loja (opcional)
+            </label>
+            <input
+              type="text"
+              id="${prefix}-site-input"
+              value="${escapeAttr(clientSiteUrl)}"
+              oninput="syncClientSite(this.value)"
+              placeholder="ex: www.suamarca.com.br"
+              class="mt-1.5 w-full rounded-2xl border border-atelier-border bg-atelier-bg/60 px-3.5 py-2.5 text-xs text-atelier-ink placeholder-atelier-muted/60 focus:border-[#8E5A82] focus:bg-white focus:outline-none"
+            />
+          </div>
+
+          <!-- Botões WhatsApp e Copiar -->
+          <div class="mt-4 space-y-2.5">
+            <button
+              onclick="sendScopeToWhatsApp()"
+              class="flex w-full items-center justify-center gap-2 rounded-full bg-atelier-ink px-4 py-3.5 text-xs font-semibold text-white shadow-soft transition hover:bg-[#3B3538] sm:text-sm"
+            >
+              <i data-lucide="message-circle" class="h-4 w-4 text-[#D8B4CE]"></i>
+              <span>Enviar Escopo para o WhatsApp</span>
+            </button>
+
+            <button
+              onclick="copyScopeSummary()"
+              class="flex w-full items-center justify-center gap-2 rounded-full border border-atelier-border bg-white px-4 py-2.5 text-xs font-semibold text-atelier-ink transition hover:border-[#8E5A82]/40"
+            >
+              <i data-lucide="copy" class="h-3.5 w-3.5 text-[#8E5A82]"></i>
+              <span>Copiar Resumo do Escopo</span>
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function escapeAttr(str) {
+      return str.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function syncClientSite(value) {
+      clientSiteUrl = value;
+      const d = document.getElementById('desktop-site-input');
+      const m = document.getElementById('mobile-site-input');
+      if (d && d.value !== value) d.value = value;
+      if (m && m.value !== value) m.value = value;
+    }
+
+    function renderSimulators() {
+      const stats = calculateStats();
+      document.getElementById('header-badge').textContent = stats.count;
+      document.getElementById('mobile-bar-count').textContent = stats.count;
+      document.getElementById('mobile-bar-time').textContent = stats.timeText;
+
+      const desktopSlot = document.getElementById('simulator-desktop-slot');
+      const mobileSlot = document.getElementById('simulator-mobile-slot');
+      if (desktopSlot) desktopSlot.innerHTML = buildSimulatorMarkup('desktop');
+      if (mobileSlot) mobileSlot.innerHTML = buildSimulatorMarkup('mobile');
+
+      lucide.createIcons();
+    }
+
+    function openOrScrollSimulator() {
+      if (window.innerWidth < 1024) {
+        toggleMobileDrawer(true);
+      } else {
+        const el = document.getElementById('desktop-simulator-wrapper');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    function toggleMobileDrawer(open) {
+      const drawer = document.getElementById('mobile-simulator-drawer');
+      if (open) {
+        drawer.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      } else {
+        drawer.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    }
+
+    function buildFormattedText() {
+      const stats = calculateStats();
+      const siteInfo = clientSiteUrl.trim() ? `\nSite/Loja: ${clientSiteUrl.trim()}` : '';
+
+      if (stats.count === 0) {
+        return `Olá! Visitei o site da Ublix (ublix.com.br) e gostaria de conversar sobre melhorias técnicas, UX e organização para o meu projeto.${siteInfo}`;
+      }
+
+      const items = [];
+      let idx = 1;
+      selectedServices.forEach((meta, id) => {
+        const srv = SERVICES.find(s => s.id === id);
+        if (!srv) return;
+        const cat = getCategory(srv.categoryId);
+        const timeInfo = srv.perUnit
+          ? `${meta.qty} produtos (${formatMinutes(srv.minMinutes * meta.qty)} – ${formatMinutes(srv.maxMinutes * meta.qty)})`
+          : srv.timeLabel;
+        items.push(`${idx}. [${cat.shortName}] ${srv.name} — ${timeInfo}`);
+        idx++;
+      });
+
+      return `Olá! Montei este escopo no simulador da Ublix (ublix.com.br):\n\n${items.join('\n')}\n\nTempo total estimado: ${stats.timeText}${siteInfo}\n\nPodemos conversar sobre os próximos passos?`;
+    }
+
+    function sendScopeToWhatsApp() {
+      const text = buildFormattedText();
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+    }
+
+    function copyScopeSummary() {
+      const text = buildFormattedText();
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.left = '-9999px';
+      document.body.appendChild(textarea);
+      textarea.select();
+
+      try {
+        document.execCommand('copy');
+        showToast('Resumo do escopo copiado com sucesso!', '#4F8A74');
+      } catch (err) {
+        showToast('Não foi possível copiar automaticamente.', '#C66D77');
+      } finally {
+        document.body.removeChild(textarea);
+      }
+    }
+
+    function handleDirectContact(e) {
+      e.preventDefault();
+      const name = document.getElementById('contact-name').value.trim();
+      const site = document.getElementById('contact-site').value.trim();
+      const note = document.getElementById('contact-note').value.trim();
+
+      const msg = `Olá! Meu nome é ${name}.\nSite/Loja: ${site}\nO que gostaria de melhorar: ${note}\n\nEnviado via ublix.com.br.`;
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
+    }
+
+    let toastTimeout;
+    function showToast(message, dotColor = '#8E5A82') {
+      const toast = document.getElementById('toast');
+      const msgEl = document.getElementById('toast-message');
+      const dotEl = document.getElementById('toast-dot');
+
+      msgEl.textContent = message;
+      dotEl.style.backgroundColor = dotColor;
+      toast.classList.remove('hidden');
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
