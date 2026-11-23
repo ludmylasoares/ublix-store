@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ublix Atelier Digital | UX, Organização & Sustentação Técnica — ublix.com.br</title>
+  <title>Ublix Atelier | UX, Organização & Sustentação Técnica — ublix.com.br</title>
   <meta name="description" content="Evolução digital contínua sem redesign completo e sem burocracia de agência. Manutenção técnica, organização & usabilidade, UX pontual, SEO estrutural e operação de e-commerce." />
 
-  <!-- Google Fonts: Plus Jakarta Sans, Cormorant Garamond & JetBrains Mono -->
+  <!-- Google Fonts: Plus Jakarta Sans, Cormorant Garamond, Syne & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@600;700&display=swap" rel="stylesheet" />
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -24,24 +24,25 @@
           fontFamily: {
             sans: ['Plus Jakarta Sans', 'sans-serif'],
             serif: ['Cormorant Garamond', 'serif'],
+            display: ['Syne', 'sans-serif'],
             mono: ['JetBrains Mono', 'monospace'],
           },
           colors: {
             atelier: {
-              bg: '#FAF8F6',
+              bg: '#FCF9F7',
               surface: '#FFFFFF',
-              soft: '#F4F0EC',
-              border: '#EBE5E0',
-              ink: '#272325',
-              muted: '#6E6568',
-              plum: '#8E5A82',
-              blush: '#C66D77',
+              soft: '#F5EFEA',
+              border: '#EAE2DC',
+              ink: '#241F23',
+              muted: '#6A6167',
+              orchid: '#D946EF',
+              coral: '#FF4D79',
             }
           },
           boxShadow: {
-            'soft': '0 10px 35px -10px rgba(39, 35, 37, 0.05)',
-            'card': '0 4px 20px -4px rgba(39, 35, 37, 0.04)',
-            'float': '0 20px 45px -12px rgba(39, 35, 37, 0.12)',
+            'soft': '0 12px 36px -12px rgba(36, 31, 35, 0.08)',
+            'card': '0 6px 22px -6px rgba(36, 31, 35, 0.05)',
+            'float': '0 24px 50px -14px rgba(36, 31, 35, 0.16)',
           }
         }
       }
@@ -49,16 +50,237 @@
   </script>
 
   <style>
+    :root {
+      --ambient-a: #D946EF;
+      --ambient-b: #00B8D9;
+      --ambient-c: #FF4D79;
+      --parallax-x: 0px;
+      --parallax-y: 0px;
+    }
+
     body {
-      background-color: #FAF8F6;
-      color: #272325;
+      background-color: #FCF9F7;
+      color: #241F23;
       overflow-x: hidden;
     }
 
     .glass-nav {
-      background: rgba(250, 248, 246, 0.88);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: rgba(252, 249, 247, 0.86);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    /* Preloader de movimento inicial */
+    #ublix-preloader {
+      transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    #ublix-preloader.is-done {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    @keyframes preloaderWord {
+      0% {
+        opacity: 0;
+        transform: translateY(14px) skewY(2deg);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) skewY(0deg);
+      }
+    }
+    @keyframes orbitPulse {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      50% { transform: scale(1.12) rotate(180deg); }
+    }
+    .preloader-word {
+      animation: preloaderWord 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .preloader-ring {
+      animation: orbitPulse 3.6s linear infinite;
+    }
+
+    /* Fundo animado com orbes luminosos e parallax */
+    .ambient-orb {
+      position: fixed;
+      border-radius: 9999px;
+      pointer-events: none;
+      filter: blur(110px);
+      opacity: 0.14;
+      z-index: 0;
+      will-change: transform, background-color;
+      transition: background-color 0.8s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .ambient-orb-1 {
+      width: 440px;
+      height: 440px;
+      top: -120px;
+      right: -80px;
+      background-color: var(--ambient-a);
+      transform: translate3d(calc(var(--parallax-x) * -0.8), calc(var(--parallax-y) * -0.8), 0);
+      animation: orbFloatA 16s ease-in-out infinite;
+    }
+    .ambient-orb-2 {
+      width: 390px;
+      height: 390px;
+      bottom: 8%;
+      left: -110px;
+      background-color: var(--ambient-b);
+      transform: translate3d(calc(var(--parallax-x) * 0.9), calc(var(--parallax-y) * 0.9), 0);
+      animation: orbFloatB 19s ease-in-out infinite;
+    }
+    .ambient-orb-3 {
+      width: 320px;
+      height: 320px;
+      top: 45%;
+      right: 12%;
+      background-color: var(--ambient-c);
+      opacity: 0.09;
+      transform: translate3d(calc(var(--parallax-x) * -0.5), calc(var(--parallax-y) * 0.6), 0);
+      animation: orbFloatC 22s ease-in-out infinite;
+    }
+    @keyframes orbFloatA {
+      0%, 100% { border-radius: 42% 58% 65% 35% / 40% 45% 55% 60%; }
+      50% { border-radius: 62% 38% 36% 64% / 58% 34% 66% 42%; }
+    }
+    @keyframes orbFloatB {
+      0%, 100% { border-radius: 56% 44% 38% 62% / 48% 60% 40% 52%; }
+      50% { border-radius: 37% 63% 59% 41% / 42% 38% 62% 58%; }
+    }
+    @keyframes orbFloatC {
+      0%, 100% { transform: translate3d(calc(var(--parallax-x) * -0.5), calc(var(--parallax-y) * 0.6), 0) scale(1); }
+      50% { transform: translate3d(calc(var(--parallax-x) * -0.5), calc(var(--parallax-y) * 0.6), 0) scale(1.14); }
+    }
+
+    /* Efeitos em texto: shimmer cinético e revelação */
+    .kinetic-text-gradient {
+      background: linear-gradient(110deg, #D946EF 0%, #FF4D79 35%, #FF7A00 68%, #00B8D9 100%);
+      background-size: 220% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: kineticShimmer 6s ease-in-out infinite;
+    }
+    @keyframes kineticShimmer {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .text-reveal-mask {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: bottom;
+    }
+    .text-reveal-inner {
+      display: inline-block;
+      animation: textRise 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    @keyframes textRise {
+      from {
+        opacity: 0;
+        transform: translateY(105%);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Efeito de brilho deslizante (sweep/shine) em botões */
+    .btn-shine {
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, background-color 0.25s ease;
+    }
+    .btn-shine::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -130%;
+      width: 65%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.42), transparent);
+      transform: skewX(-24deg);
+      transition: left 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+    .btn-shine:hover::after {
+      left: 160%;
+    }
+    .btn-shine:active {
+      transform: scale(0.97);
+    }
+
+    /* Indicador deslizante no menu desktop */
+    .nav-indicator {
+      position: absolute;
+      bottom: -6px;
+      height: 2.5px;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, #D946EF, #FF4D79);
+      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), width 0.32s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
+      pointer-events: none;
+    }
+
+    /* Revelação escalonada (staggered entrance) & scroll reveal */
+    @keyframes staggerIn {
+      0% {
+        opacity: 0;
+        transform: translateY(16px) scale(0.985);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    .stagger-card {
+      opacity: 0;
+      animation: staggerIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation-delay: var(--stagger-delay, 0ms);
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.25s ease;
+    }
+    .stagger-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-on-scroll.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Menu mobile animado */
+    #mobile-nav-drawer {
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    #mobile-nav-drawer.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+    #mobile-nav-panel {
+      transform: translateX(100%);
+      transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #mobile-nav-drawer.is-open #mobile-nav-panel {
+      transform: translateX(0);
+    }
+
+    /* Acessibilidade: prefers-reduced-motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .reveal-on-scroll, .stagger-card {
+        opacity: 1 !important;
+        transform: none !important;
+      }
     }
 
     /* Scrollbar minimalista */
@@ -67,138 +289,221 @@
       height: 6px;
     }
     ::-webkit-scrollbar-track {
-      background: #FAF8F6;
+      background: #FCF9F7;
     }
     ::-webkit-scrollbar-thumb {
-      background: #DCD4CE;
+      background: #DFD5CE;
       border-radius: 9999px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: #C4B9B1;
-    }
-
-    @keyframes fadeSlide {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .animate-fade-slide {
-      animation: fadeSlide 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      background: #C7B8AE;
     }
   </style>
 </head>
-<body class="antialiased selection:bg-[#8E5A82]/15 selection:text-[#272325]">
+<body class="antialiased selection:bg-[#D946EF]/15 selection:text-[#241F23]">
+
+  <!-- Preloader / Loading de Movimento Inicial -->
+  <div id="ublix-preloader" class="fixed inset-0 z-[70] flex flex-col items-center justify-center bg-[#FCF9F7] px-6" aria-hidden="true">
+    <div class="relative flex flex-col items-center text-center">
+      <div class="relative mb-5 flex h-16 w-16 items-center justify-center">
+        <span class="preloader-ring absolute inset-0 rounded-full border-2 border-dashed border-[#D946EF]/45"></span>
+        <span class="flex h-12 w-12 items-center justify-center rounded-full border border-[#EAE2DC] bg-white shadow-card">
+          <span class="font-serif text-3xl font-bold italic text-[#D946EF]">u</span>
+        </span>
+      </div>
+
+      <div class="preloader-word flex items-baseline gap-1.5">
+        <span class="font-display text-2xl font-bold tracking-tight text-atelier-ink">ublix</span>
+        <span class="font-mono text-xs font-semibold text-[#FF4D79]">.com.br</span>
+        <span class="ml-1 font-serif text-lg italic text-atelier-muted">atelier</span>
+      </div>
+
+      <div class="mt-5 h-1.5 w-48 overflow-hidden rounded-full bg-atelier-soft">
+        <div
+          id="preloader-bar"
+          class="h-full w-0 rounded-full transition-all duration-150"
+          style="background: linear-gradient(90deg, #00B8D9, #D946EF, #FF4D79, #00C48C, #FF7A00, #4F46E5);"
+        ></div>
+      </div>
+      <span id="preloader-percent" class="mt-2 font-mono text-[11px] font-semibold text-atelier-muted">0%</span>
+    </div>
+  </div>
+
+  <!-- Barra de Progresso de Leitura / Scroll no Topo -->
+  <div class="fixed inset-x-0 top-0 z-50 h-1 bg-transparent pointer-events-none">
+    <div
+      id="scroll-progress-bar"
+      class="h-full w-0 transition-[width] duration-75"
+      style="background: linear-gradient(90deg, #00B8D9, #D946EF, #FF4D79, #00C48C, #FF7A00, #4F46E5);"
+    ></div>
+  </div>
+
+  <!-- Fundo Animado com Orbes Luminosos e Parallax -->
+  <div class="ambient-orb ambient-orb-1" aria-hidden="true"></div>
+  <div class="ambient-orb ambient-orb-2" aria-hidden="true"></div>
+  <div class="ambient-orb ambient-orb-3" aria-hidden="true"></div>
 
   <!-- Toast de Notificação (Substitui alert()) -->
-  <div id="toast" class="fixed bottom-24 right-5 z-50 hidden max-w-sm rounded-2xl border border-atelier-border bg-white px-4 py-3.5 text-sm text-atelier-ink shadow-float sm:bottom-6">
+  <div id="toast" class="fixed bottom-24 right-5 z-50 hidden max-w-sm rounded-2xl border border-atelier-border bg-white/95 px-4 py-3.5 text-sm text-atelier-ink shadow-float backdrop-blur sm:bottom-6">
     <div class="flex items-center gap-3">
-      <span id="toast-dot" class="h-2.5 w-2.5 shrink-0 rounded-full" style="background-color: #8E5A82;"></span>
+      <span id="toast-dot" class="h-2.5 w-2.5 shrink-0 rounded-full" style="background-color: #D946EF;"></span>
       <p id="toast-message" class="font-medium leading-snug"></p>
     </div>
   </div>
 
-  <!-- Cabeçalho Minimalista & Fixo -->
+  <!-- Cabeçalho Minimalista & Fixo com Indicador Deslizante -->
   <header class="glass-nav sticky top-0 z-40 border-b border-atelier-border">
-    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+    <div class="relative mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
       <!-- Marca Ublix -->
       <a href="#" class="group flex items-center gap-3">
-        <div class="flex h-10 w-10 items-center justify-center rounded-full border border-[#8E5A82]/25 bg-white shadow-card transition-transform group-hover:scale-105">
-          <span class="font-serif text-2xl font-bold italic text-[#8E5A82]">u</span>
+        <div class="flex h-10 w-10 items-center justify-center rounded-full border border-[#D946EF]/30 bg-white shadow-card transition-all duration-300 group-hover:scale-105 group-hover:border-[#FF4D79]">
+          <span class="font-serif text-2xl font-bold italic text-[#D946EF] transition-transform duration-300 group-hover:rotate-6">u</span>
         </div>
         <div>
           <div class="flex items-baseline gap-1">
-            <span class="text-lg font-bold tracking-tight text-atelier-ink">ublix</span>
-            <span class="font-mono text-xs font-medium text-[#8E5A82]">.com.br</span>
+            <span class="font-display text-base font-bold tracking-tight text-atelier-ink">ublix</span>
+            <span class="font-mono text-xs font-semibold text-[#D946EF]">.com.br</span>
           </div>
           <p class="text-[11px] tracking-wide text-atelier-muted">UX, Organização & Sustentação</p>
         </div>
       </a>
 
-      <!-- Navegação Limpa -->
-      <nav class="hidden items-center gap-8 md:flex">
-        <a href="#metodologia" class="text-sm font-medium text-atelier-muted transition hover:text-atelier-ink">Metodologia</a>
-        <a href="#catalogo" class="text-sm font-medium text-atelier-muted transition hover:text-atelier-ink">Serviços & Simulador</a>
-        <a href="#portfolio" class="text-sm font-medium text-atelier-muted transition hover:text-atelier-ink">Portfólio</a>
-        <a href="#contato" class="text-sm font-medium text-atelier-muted transition hover:text-atelier-ink">Contato</a>
+      <!-- Navegação Desktop com Indicador Deslizante -->
+      <nav id="desktop-nav" class="relative hidden items-center gap-8 md:flex" aria-label="Navegação principal">
+        <a href="#metodologia" data-nav-link class="nav-item py-1 text-sm font-medium text-atelier-muted transition hover:text-atelier-ink">Metodologia</a>
+        <a href="#catalogo" data-nav-link class="nav-item py-1 text-sm font-medium text-atelier-muted transition hover:text-atelier-ink">Serviços & Simulador</a>
+        <a href="#portfolio" data-nav-link class="nav-item py-1 text-sm font-medium text-atelier-muted transition hover:text-atelier-ink">Portfólio</a>
+        <a href="#contato" data-nav-link class="nav-item py-1 text-sm font-medium text-atelier-muted transition hover:text-atelier-ink">Contato</a>
+        <span id="nav-sliding-indicator" class="nav-indicator opacity-0"></span>
       </nav>
 
-      <!-- Ações do Header -->
+      <!-- Ações do Header + Botão Menu Mobile -->
       <div class="flex items-center gap-2.5">
         <button
           onclick="openOrScrollSimulator()"
-          class="inline-flex items-center gap-2 rounded-full border border-atelier-border bg-white px-4 py-2 text-xs font-semibold text-atelier-ink shadow-card transition hover:border-[#8E5A82]/40 sm:text-sm"
+          class="btn-shine inline-flex items-center gap-2 rounded-full border border-atelier-border bg-white px-4 py-2 text-xs font-semibold text-atelier-ink shadow-card transition hover:border-[#D946EF]/50 sm:text-sm"
         >
-          <i data-lucide="sparkles" class="h-3.5 w-3.5 text-[#8E5A82]"></i>
+          <i data-lucide="sparkles" class="h-3.5 w-3.5 text-[#D946EF]"></i>
           <span>Meu Escopo</span>
-          <span id="header-badge" class="rounded-full bg-[#8E5A82] px-2 py-0.5 font-mono text-[11px] font-semibold text-white">0</span>
+          <span id="header-badge" class="rounded-full bg-[#D946EF] px-2 py-0.5 font-mono text-[11px] font-semibold text-white">0</span>
         </button>
 
         <a
           href="#catalogo"
-          class="hidden rounded-full bg-atelier-ink px-5 py-2.5 text-xs font-semibold text-white transition hover:bg-[#3B3538] sm:inline-flex sm:text-sm"
+          class="btn-shine hidden rounded-full bg-atelier-ink px-5 py-2.5 text-xs font-semibold text-white shadow-card hover:bg-[#383036] sm:inline-flex sm:text-sm"
         >
           Montar Escopo
         </a>
+
+        <button
+          onclick="toggleMobileNav(true)"
+          aria-label="Abrir menu"
+          class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-atelier-border bg-white text-atelier-ink shadow-card transition hover:border-[#FF4D79] md:hidden"
+        >
+          <i data-lucide="menu" class="h-4 w-4"></i>
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- Hero Editorial & Proposta de Valor -->
-  <section class="relative overflow-hidden border-b border-atelier-border pt-14 pb-16 sm:pt-20 sm:pb-24">
-    <!-- Halo suave decorativo -->
-    <div class="pointer-events-none absolute -top-24 right-1/4 h-80 w-80 rounded-full bg-[#8E5A82]/[0.06] blur-[100px]"></div>
-    <div class="pointer-events-none absolute bottom-0 left-1/4 h-72 w-72 rounded-full bg-[#C66D77]/[0.06] blur-[100px]"></div>
+  <!-- Drawer Animado de Navegação Mobile -->
+  <div id="mobile-nav-drawer" class="fixed inset-0 z-50 invisible opacity-0 md:hidden" role="dialog" aria-modal="true" aria-label="Menu mobile">
+    <div onclick="toggleMobileNav(false)" class="fixed inset-0 bg-[#241F23]/35 backdrop-blur-xs"></div>
+    <div id="mobile-nav-panel" class="fixed inset-y-0 right-0 flex w-72 max-w-[85vw] flex-col justify-between border-l border-atelier-border bg-[#FCF9F7] p-6 shadow-float">
+      <div>
+        <div class="flex items-center justify-between border-b border-atelier-border pb-4">
+          <div class="flex items-baseline gap-1">
+            <span class="font-display text-base font-bold text-atelier-ink">ublix</span>
+            <span class="font-mono text-xs font-semibold text-[#D946EF]">.com.br</span>
+          </div>
+          <button onclick="toggleMobileNav(false)" aria-label="Fechar menu" class="rounded-full border border-atelier-border bg-white p-2 text-atelier-ink">
+            <i data-lucide="x" class="h-4 w-4"></i>
+          </button>
+        </div>
 
-    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <nav class="mt-6 flex flex-col gap-3">
+          <a href="#metodologia" onclick="toggleMobileNav(false)" class="flex items-center justify-between rounded-2xl border border-atelier-border bg-white px-4 py-3 text-sm font-semibold text-atelier-ink transition hover:border-[#00B8D9]">
+            <span>Metodologia</span>
+            <span class="h-2 w-2 rounded-full" style="background-color: #00B8D9;"></span>
+          </a>
+          <a href="#catalogo" onclick="toggleMobileNav(false)" class="flex items-center justify-between rounded-2xl border border-atelier-border bg-white px-4 py-3 text-sm font-semibold text-atelier-ink transition hover:border-[#D946EF]">
+            <span>Serviços & Simulador</span>
+            <span class="h-2 w-2 rounded-full" style="background-color: #D946EF;"></span>
+          </a>
+          <a href="#portfolio" onclick="toggleMobileNav(false)" class="flex items-center justify-between rounded-2xl border border-atelier-border bg-white px-4 py-3 text-sm font-semibold text-atelier-ink transition hover:border-[#FF4D79]">
+            <span>Portfólio</span>
+            <span class="h-2 w-2 rounded-full" style="background-color: #FF4D79;"></span>
+          </a>
+          <a href="#contato" onclick="toggleMobileNav(false)" class="flex items-center justify-between rounded-2xl border border-atelier-border bg-white px-4 py-3 text-sm font-semibold text-atelier-ink transition hover:border-[#4F46E5]">
+            <span>Contato</span>
+            <span class="h-2 w-2 rounded-full" style="background-color: #4F46E5;"></span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="rounded-2xl border border-atelier-border bg-white p-4 text-xs text-atelier-muted">
+        <p class="font-semibold text-atelier-ink">Sem redesign completo.</p>
+        <p class="mt-1">Evolução pontual e contínua para o seu site ou e-commerce.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero Editorial com Efeitos em Texto & Botões Brilhantes -->
+  <section class="relative z-10 overflow-hidden border-b border-atelier-border pt-14 pb-16 sm:pt-20 sm:pb-24">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-4xl text-center">
-        <!-- Selo Editorial -->
-        <div class="mb-6 inline-flex items-center gap-2.5 rounded-full border border-atelier-border bg-white px-4 py-1.5 text-xs font-medium text-atelier-muted shadow-card">
-          <span class="flex items-center gap-1">
-            <span class="h-2 w-2 rounded-full" style="background-color: #5B8599;"></span>
-            <span class="h-2 w-2 rounded-full" style="background-color: #8E5A82;"></span>
-            <span class="h-2 w-2 rounded-full" style="background-color: #C66D77;"></span>
-            <span class="h-2 w-2 rounded-full" style="background-color: #4F8A74;"></span>
-            <span class="h-2 w-2 rounded-full" style="background-color: #B58246;"></span>
-            <span class="h-2 w-2 rounded-full" style="background-color: #6D6DA8;"></span>
+        <!-- Selo com as 6 cores vivas atuais -->
+        <div class="mb-6 inline-flex items-center gap-2.5 rounded-full border border-atelier-border bg-white/90 px-4 py-1.5 text-xs font-medium text-atelier-muted shadow-card backdrop-blur">
+          <span class="flex items-center gap-1.5">
+            <span class="h-2 w-2 rounded-full" style="background-color: #00B8D9;"></span>
+            <span class="h-2 w-2 rounded-full" style="background-color: #D946EF;"></span>
+            <span class="h-2 w-2 rounded-full" style="background-color: #FF4D79;"></span>
+            <span class="h-2 w-2 rounded-full" style="background-color: #00C48C;"></span>
+            <span class="h-2 w-2 rounded-full" style="background-color: #FF7A00;"></span>
+            <span class="h-2 w-2 rounded-full" style="background-color: #4F46E5;"></span>
           </span>
           <span>Sem redesign completo • Sem burocracia de agência</span>
         </div>
 
         <h1 class="text-3xl font-bold tracking-tight text-atelier-ink sm:text-5xl lg:text-[54px] lg:leading-[1.14]">
-          Cuidado técnico, <span class="font-serif text-[1.12em] font-bold italic text-[#8E5A82]">clareza visual</span> e evolução contínua para o seu site.
+          <span class="text-reveal-mask">
+            <span class="text-reveal-inner">Cuidado técnico,</span>
+          </span>
+          <span class="text-reveal-mask">
+            <span class="text-reveal-inner kinetic-text-gradient font-serif text-[1.14em] font-bold italic" style="animation-delay: 90ms;">clareza visual</span>
+          </span>
+          <br class="hidden sm:inline" />
+          <span class="text-reveal-mask">
+            <span class="text-reveal-inner" style="animation-delay: 160ms;">e evolução contínua para o seu site.</span>
+          </span>
         </h1>
 
         <p class="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-atelier-muted sm:text-lg">
           Seu site ou e-commerce não precisa ser refeito do zero para vender e encantar melhor. Atuo de forma pontual na <strong class="font-semibold text-atelier-ink">organização, usabilidade, estética e rotina técnica</strong> com entregas rápidas e transparentes.
         </p>
 
-        <!-- Botões Principais -->
+        <!-- Botões Principais com Efeito Shine -->
         <div class="mt-9 flex flex-col items-center justify-center gap-3.5 sm:flex-row">
           <a
             href="#catalogo"
-            class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-atelier-ink px-7 py-3.5 text-sm font-semibold text-white shadow-soft transition hover:bg-[#3B3538] sm:w-auto"
+            class="btn-shine inline-flex w-full items-center justify-center gap-2 rounded-full bg-atelier-ink px-7 py-3.5 text-sm font-semibold text-white shadow-soft hover:bg-[#383036] sm:w-auto"
           >
             <span>Explorar Serviços & Simulador</span>
             <i data-lucide="arrow-down" class="h-4 w-4"></i>
           </a>
           <a
             href="#portfolio"
-            class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-atelier-border bg-white px-7 py-3.5 text-sm font-semibold text-atelier-ink shadow-card transition hover:border-[#8E5A82]/40 sm:w-auto"
+            class="btn-shine inline-flex w-full items-center justify-center gap-2 rounded-full border border-atelier-border bg-white px-7 py-3.5 text-sm font-semibold text-atelier-ink shadow-card hover:border-[#FF4D79]/50 sm:w-auto"
           >
             <span>Ver Cases & Escopos Prontos</span>
           </a>
         </div>
       </div>
 
-      <!-- 3 Cards Resumidos de Valor -->
+      <!-- 3 Cards Resumidos de Valor com Cores Vivas -->
       <div class="mt-14 grid gap-5 sm:grid-cols-3">
-        <div class="rounded-3xl border border-atelier-border bg-white p-6 shadow-card">
-          <div class="flex h-10 w-10 items-center justify-center rounded-2xl" style="background-color: #F8F2F6; color: #8E5A82;">
+        <div class="stagger-card rounded-3xl border border-atelier-border bg-white/95 p-6 shadow-card hover:border-[#D946EF]/50" style="--stagger-delay: 60ms; border-top: 3px solid #D946EF;">
+          <div class="flex h-10 w-10 items-center justify-center rounded-2xl" style="background-color: rgba(217, 70, 239, 0.12); color: #D946EF;">
             <i data-lucide="compass" class="h-5 w-5"></i>
           </div>
           <h2 class="mt-4 text-base font-bold text-atelier-ink">Valor Silencioso em UX</h2>
@@ -207,8 +512,8 @@
           </p>
         </div>
 
-        <div class="rounded-3xl border border-atelier-border bg-white p-6 shadow-card">
-          <div class="flex h-10 w-10 items-center justify-center rounded-2xl" style="background-color: #FDF3F4; color: #C66D77;">
+        <div class="stagger-card rounded-3xl border border-atelier-border bg-white/95 p-6 shadow-card hover:border-[#FF4D79]/50" style="--stagger-delay: 140ms; border-top: 3px solid #FF4D79;">
+          <div class="flex h-10 w-10 items-center justify-center rounded-2xl" style="background-color: rgba(255, 77, 121, 0.12); color: #FF4D79;">
             <i data-lucide="wand-2" class="h-5 w-5"></i>
           </div>
           <h2 class="mt-4 text-base font-bold text-atelier-ink">Intervenções Cirúrgicas</h2>
@@ -217,8 +522,8 @@
           </p>
         </div>
 
-        <div class="rounded-3xl border border-atelier-border bg-white p-6 shadow-card">
-          <div class="flex h-10 w-10 items-center justify-center rounded-2xl" style="background-color: #FAF5EE; color: #B58246;">
+        <div class="stagger-card rounded-3xl border border-atelier-border bg-white/95 p-6 shadow-card hover:border-[#FF7A00]/50" style="--stagger-delay: 220ms; border-top: 3px solid #FF7A00;">
+          <div class="flex h-10 w-10 items-center justify-center rounded-2xl" style="background-color: rgba(255, 122, 0, 0.12); color: #FF7A00;">
             <i data-lucide="shopping-bag" class="h-5 w-5"></i>
           </div>
           <h2 class="mt-4 text-base font-bold text-atelier-ink">Rotina Real de E-commerce</h2>
@@ -231,11 +536,11 @@
   </section>
 
   <!-- Metodologia Minimalista -->
-  <section id="metodologia" class="border-b border-atelier-border bg-white/60 py-14 sm:py-20">
+  <section id="metodologia" class="reveal-on-scroll relative z-10 border-b border-atelier-border bg-white/75 py-14 backdrop-blur-xs sm:py-20">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col justify-between gap-4 md:flex-row md:items-end">
         <div>
-          <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[#8E5A82]">Metodologia Ublix</span>
+          <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[#D946EF]">Metodologia Ublix</span>
           <h2 class="mt-1.5 text-2xl font-bold tracking-tight text-atelier-ink sm:text-3xl">
             Simples, modular e sob medida para o seu momento
           </h2>
@@ -246,24 +551,24 @@
       </div>
 
       <div class="mt-10 grid gap-6 md:grid-cols-3">
-        <div class="rounded-3xl border border-atelier-border bg-white p-6 shadow-card">
-          <span class="font-serif text-3xl font-bold italic text-[#6D6DA8]">01.</span>
+        <div class="rounded-3xl border border-atelier-border bg-white p-6 shadow-card transition hover:-translate-y-1 hover:border-[#4F46E5]/50">
+          <span class="font-serif text-3xl font-bold italic text-[#4F46E5]">01.</span>
           <h3 class="mt-2 text-base font-bold text-atelier-ink">Diagnóstico & Clareza</h3>
           <p class="mt-2 text-sm leading-relaxed text-atelier-muted">
             Mapeamos os pontos técnicos, visuais e de navegação que estão segurando a experiência do seu visitante.
           </p>
         </div>
 
-        <div class="rounded-3xl border border-atelier-border bg-white p-6 shadow-card">
-          <span class="font-serif text-3xl font-bold italic text-[#C66D77]">02.</span>
+        <div class="rounded-3xl border border-atelier-border bg-white p-6 shadow-card transition hover:-translate-y-1 hover:border-[#FF4D79]/50">
+          <span class="font-serif text-3xl font-bold italic text-[#FF4D79]">02.</span>
           <h3 class="mt-2 text-base font-bold text-atelier-ink">Execução Pontual</h3>
           <p class="mt-2 text-sm leading-relaxed text-atelier-muted">
             Aplicamos as melhorias diretamente no seu ambiente com foco em legibilidade, estabilidade e fluidez mobile.
           </p>
         </div>
 
-        <div class="rounded-3xl border border-atelier-border bg-white p-6 shadow-card">
-          <span class="font-serif text-3xl font-bold italic text-[#4F8A74]">03.</span>
+        <div class="rounded-3xl border border-atelier-border bg-white p-6 shadow-card transition hover:-translate-y-1 hover:border-[#00C48C]/50">
+          <span class="font-serif text-3xl font-bold italic text-[#00C48C]">03.</span>
           <h3 class="mt-2 text-base font-bold text-atelier-ink">Acompanhamento Transparente</h3>
           <p class="mt-2 text-sm leading-relaxed text-atelier-muted">
             Entregas documentadas e planejamento contínuo de prioridades para manter seu projeto sempre saudável.
@@ -274,18 +579,18 @@
   </section>
 
   <!-- Catálogo Interativo das 6 Categorias + Simulador de Escopo Lateral -->
-  <section id="catalogo" class="py-16 sm:py-24">
+  <section id="catalogo" class="reveal-on-scroll relative z-10 py-16 sm:py-24">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
       <!-- Título & Busca em Tempo Real -->
       <div class="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
         <div>
-          <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[#8E5A82]">Catálogo & Simulador</span>
+          <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[#D946EF]">Catálogo & Simulador</span>
           <h2 class="mt-1.5 text-2xl font-bold tracking-tight text-atelier-ink sm:text-4xl">
-            Selecione os serviços por <span class="font-serif text-[1.12em] italic text-[#8E5A82]">especialidade</span>
+            Selecione os serviços por <span class="kinetic-text-gradient font-serif text-[1.14em] italic">especialidade</span>
           </h2>
           <p class="mt-2 text-sm text-atelier-muted">
-            Cada frente possui sua assinatura cromática para facilitar a visualização do equilíbrio entre técnica, estética e operação.
+            Cada categoria possui uma cor vibrante própria para identificar rapidamente o escopo no catálogo e no simulador.
           </p>
         </div>
 
@@ -296,12 +601,12 @@
             type="text"
             id="search-input"
             placeholder="Buscar serviço ou escopo..."
-            class="w-full rounded-full border border-atelier-border bg-white py-3 pl-11 pr-4 text-sm text-atelier-ink placeholder-atelier-muted/70 shadow-card transition focus:border-[#8E5A82] focus:outline-none"
+            class="w-full rounded-full border border-atelier-border bg-white py-3 pl-11 pr-4 text-sm text-atelier-ink placeholder-atelier-muted/70 shadow-card transition focus:border-[#D946EF] focus:outline-none"
           />
         </div>
       </div>
 
-      <!-- Barra de Filtro das 6 Categorias (Com Indicador Cromático) -->
+      <!-- Barra de Filtro das 6 Categorias (Cores Vivas Atuais) -->
       <div id="category-filters" class="mt-8 flex flex-wrap gap-2.5" role="tablist">
         <!-- Renderizado dinamicamente via JS -->
       </div>
@@ -325,7 +630,7 @@
             <i data-lucide="search-x" class="mx-auto h-9 w-9 text-atelier-muted"></i>
             <h3 class="mt-3 text-base font-bold text-atelier-ink">Nenhum serviço encontrado</h3>
             <p class="mt-1 text-sm text-atelier-muted">Tente buscar outro termo ou exiba todas as 6 categorias.</p>
-            <button onclick="resetFilters()" class="mt-4 rounded-full border border-atelier-border bg-atelier-bg px-5 py-2 text-xs font-semibold text-atelier-ink transition hover:border-[#8E5A82]">
+            <button onclick="resetFilters()" class="btn-shine mt-4 rounded-full border border-atelier-border bg-atelier-bg px-5 py-2 text-xs font-semibold text-atelier-ink transition hover:border-[#D946EF]">
               Mostrar todos os 29 serviços
             </button>
           </div>
@@ -345,11 +650,11 @@
     <div class="mx-auto flex max-w-lg items-center justify-between gap-3">
       <div>
         <p class="text-[11px] font-medium text-atelier-muted">Escopo selecionado (<span id="mobile-bar-count">0</span>)</p>
-        <p id="mobile-bar-time" class="font-mono text-sm font-semibold text-[#8E5A82]">0 min</p>
+        <p id="mobile-bar-time" class="font-mono text-sm font-semibold text-[#D946EF]">0 min</p>
       </div>
       <button
         onclick="toggleMobileDrawer(true)"
-        class="inline-flex items-center gap-2 rounded-full bg-atelier-ink px-5 py-2.5 text-xs font-semibold text-white shadow-soft"
+        class="btn-shine inline-flex items-center gap-2 rounded-full bg-atelier-ink px-5 py-2.5 text-xs font-semibold text-white shadow-soft"
       >
         <i data-lucide="sliders-horizontal" class="h-3.5 w-3.5"></i>
         <span>Revisar & Enviar</span>
@@ -359,7 +664,7 @@
 
   <!-- Drawer Mobile do Simulador -->
   <div id="mobile-simulator-drawer" class="fixed inset-0 z-50 hidden lg:hidden" role="dialog" aria-modal="true">
-    <div onclick="toggleMobileDrawer(false)" class="fixed inset-0 bg-[#272325]/40 backdrop-blur-xs"></div>
+    <div onclick="toggleMobileDrawer(false)" class="fixed inset-0 bg-[#241F23]/40 backdrop-blur-xs"></div>
     <div class="fixed inset-x-0 bottom-0 max-h-[90vh] overflow-y-auto rounded-t-3xl border-t border-atelier-border bg-atelier-bg p-5 shadow-float">
       <div class="mb-3 flex items-center justify-between">
         <span class="font-mono text-xs font-semibold uppercase tracking-wider text-atelier-muted">Simulador Ublix</span>
@@ -372,13 +677,13 @@
   </div>
 
   <!-- Vitrine de Portfólio & Cases com Presets -->
-  <section id="portfolio" class="border-t border-atelier-border bg-white py-16 sm:py-24">
+  <section id="portfolio" class="reveal-on-scroll relative z-10 border-t border-atelier-border bg-white/90 py-16 backdrop-blur-xs sm:py-24">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
         <div>
-          <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[#C66D77]">Portfólio & Cases</span>
+          <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[#FF4D79]">Portfólio & Cases</span>
           <h2 class="mt-1.5 text-2xl font-bold tracking-tight text-atelier-ink sm:text-4xl">
-            Impacto real sem precisar <span class="font-serif text-[1.12em] italic text-[#C66D77]">recomeçar do zero</span>
+            Impacto real sem precisar <span class="font-serif text-[1.14em] italic text-[#FF4D79]">recomeçar do zero</span>
           </h2>
         </div>
         <p class="max-w-md text-sm text-atelier-muted">
@@ -389,15 +694,15 @@
       <div class="mt-12 grid gap-8 md:grid-cols-3">
 
         <!-- Case 1: E-commerce Editorial & Moda -->
-        <article class="group flex flex-col overflow-hidden rounded-3xl border border-atelier-border bg-atelier-bg/60 shadow-card transition hover:shadow-soft">
-          <div class="relative aspect-video w-full overflow-hidden bg-[#F8F2F6]">
+        <article class="stagger-card group flex flex-col overflow-hidden rounded-3xl border border-atelier-border bg-atelier-bg/80 shadow-card hover:border-[#D946EF]/50" style="--stagger-delay: 60ms;">
+          <div class="relative aspect-video w-full overflow-hidden" style="background-color: rgba(217, 70, 239, 0.09);">
             <img
-              src="https://placehold.co/800x450/F8F2F6/8E5A82?text=E-commerce+Editorial+%26+Moda"
+              src="https://placehold.co/800x450/F9E8FC/D946EF?text=E-commerce+Editorial+%26+Moda"
               alt="Case E-commerce Editorial e Moda"
-              onerror="this.src='https://placehold.co/800x450/FAF8F6/272325?text=Ublix+Moda'"
+              onerror="this.src='https://placehold.co/800x450/FCF9F7/241F23?text=Ublix+Moda'"
               class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
             />
-            <span class="absolute top-3.5 left-3.5 rounded-full border border-[#8E5A82]/25 bg-white/95 px-3 py-1 text-[11px] font-semibold text-[#8E5A82] backdrop-blur">
+            <span class="absolute top-3.5 left-3.5 rounded-full border border-[#D946EF]/35 bg-white/95 px-3 py-1 text-[11px] font-semibold text-[#D946EF] backdrop-blur">
               E-commerce Editorial & Moda
             </span>
           </div>
@@ -407,19 +712,19 @@
 
             <div class="mt-3.5 space-y-2 rounded-2xl border border-atelier-border bg-white p-3.5 text-xs">
               <p class="text-atelier-muted"><strong class="text-atelier-ink">Antes:</strong> Coleções misturadas, banners desalinhados no celular e textos pouco legíveis.</p>
-              <p class="text-atelier-muted"><strong class="text-[#8E5A82]">Depois:</strong> Menus intuitivos, hierarquia elegante, banners adaptados e leitura fluida no mobile.</p>
+              <p class="text-atelier-muted"><strong class="text-[#D946EF]">Depois:</strong> Menus intuitivos, hierarquia elegante, banners adaptados e leitura fluida no mobile.</p>
             </div>
 
             <div class="mt-4 flex flex-wrap gap-1.5">
-              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: #F8F2F6; color: #8E5A82;">Organização de categorias</span>
-              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: #FDF3F4; color: #C66D77;">Ajustes de banners</span>
-              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: #F1F6F8; color: #5B8599;">Responsividade</span>
+              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: rgba(217, 70, 239, 0.12); color: #D946EF;">Organização de categorias</span>
+              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: rgba(255, 77, 121, 0.12); color: #FF4D79;">Ajustes de banners</span>
+              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: rgba(0, 184, 217, 0.12); color: #00B8D9;">Responsividade</span>
             </div>
 
             <div class="mt-6 pt-2">
               <button
                 onclick="loadPreset(['cat2-2', 'cat2-4', 'cat3-1', 'cat3-3', 'cat1-2'], 'Escopo E-commerce Editorial & Moda carregado!')"
-                class="flex w-full items-center justify-center gap-2 rounded-full border border-[#8E5A82]/35 bg-white px-4 py-2.5 text-xs font-semibold text-[#8E5A82] transition hover:bg-[#8E5A82] hover:text-white"
+                class="btn-shine flex w-full items-center justify-center gap-2 rounded-full border border-[#D946EF]/45 bg-white px-4 py-2.5 text-xs font-semibold text-[#D946EF] hover:bg-[#D946EF] hover:text-white"
               >
                 <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i>
                 Carregar escopo parecido no simulador
@@ -429,15 +734,15 @@
         </article>
 
         <!-- Case 2: Catálogo & Loja Especializada -->
-        <article class="group flex flex-col overflow-hidden rounded-3xl border border-atelier-border bg-atelier-bg/60 shadow-card transition hover:shadow-soft">
-          <div class="relative aspect-video w-full overflow-hidden bg-[#FAF5EE]">
+        <article class="stagger-card group flex flex-col overflow-hidden rounded-3xl border border-atelier-border bg-atelier-bg/80 shadow-card hover:border-[#FF7A00]/50" style="--stagger-delay: 140ms;">
+          <div class="relative aspect-video w-full overflow-hidden" style="background-color: rgba(255, 122, 0, 0.09);">
             <img
-              src="https://placehold.co/800x450/FAF5EE/B58246?text=Cat%C3%A1logo+%26+Loja+Especializada"
+              src="https://placehold.co/800x450/FFF0E0/FF7A00?text=Cat%C3%A1logo+%26+Loja+Especializada"
               alt="Case Catálogo e Loja Especializada"
-              onerror="this.src='https://placehold.co/800x450/FAF8F6/272325?text=Ublix+Catalogo'"
+              onerror="this.src='https://placehold.co/800x450/FCF9F7/241F23?text=Ublix+Catalogo'"
               class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
             />
-            <span class="absolute top-3.5 left-3.5 rounded-full border border-[#B58246]/25 bg-white/95 px-3 py-1 text-[11px] font-semibold text-[#B58246] backdrop-blur">
+            <span class="absolute top-3.5 left-3.5 rounded-full border border-[#FF7A00]/35 bg-white/95 px-3 py-1 text-[11px] font-semibold text-[#FF7A00] backdrop-blur">
               Catálogo & Loja Especializada
             </span>
           </div>
@@ -447,19 +752,19 @@
 
             <div class="mt-3.5 space-y-2 rounded-2xl border border-atelier-border bg-white p-3.5 text-xs">
               <p class="text-atelier-muted"><strong class="text-atelier-ink">Antes:</strong> Fichas de produtos incompletas, filtros confusos e abandono na etapa final.</p>
-              <p class="text-atelier-muted"><strong class="text-[#B58246]">Depois:</strong> Catálogo padronizado, filtros lógicos por atributo e fluxo de checkout limpo.</p>
+              <p class="text-atelier-muted"><strong class="text-[#FF7A00]">Depois:</strong> Catálogo padronizado, filtros lógicos por atributo e fluxo de checkout limpo.</p>
             </div>
 
             <div class="mt-4 flex flex-wrap gap-1.5">
-              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: #FAF5EE; color: #B58246;">Revisão de produtos</span>
-              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: #FAF5EE; color: #B58246;">Ajustes em filtros</span>
-              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: #FAF5EE; color: #B58246;">Revisão de checkout</span>
+              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: rgba(255, 122, 0, 0.12); color: #FF7A00;">Revisão de produtos</span>
+              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: rgba(255, 122, 0, 0.12); color: #FF7A00;">Ajustes em filtros</span>
+              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: rgba(255, 122, 0, 0.12); color: #FF7A00;">Revisão de checkout</span>
             </div>
 
             <div class="mt-6 pt-2">
               <button
                 onclick="loadPreset(['cat5-2', 'cat5-3', 'cat5-4', 'cat2-3'], 'Escopo Catálogo & Loja Especializada carregado!')"
-                class="flex w-full items-center justify-center gap-2 rounded-full border border-[#B58246]/35 bg-white px-4 py-2.5 text-xs font-semibold text-[#B58246] transition hover:bg-[#B58246] hover:text-white"
+                class="btn-shine flex w-full items-center justify-center gap-2 rounded-full border border-[#FF7A00]/45 bg-white px-4 py-2.5 text-xs font-semibold text-[#FF7A00] hover:bg-[#FF7A00] hover:text-white"
               >
                 <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i>
                 Carregar escopo parecido no simulador
@@ -469,15 +774,15 @@
         </article>
 
         <!-- Case 3: Site Institucional & Serviços -->
-        <article class="group flex flex-col overflow-hidden rounded-3xl border border-atelier-border bg-atelier-bg/60 shadow-card transition hover:shadow-soft">
-          <div class="relative aspect-video w-full overflow-hidden bg-[#F1F7F4]">
+        <article class="stagger-card group flex flex-col overflow-hidden rounded-3xl border border-atelier-border bg-atelier-bg/80 shadow-card hover:border-[#00C48C]/50" style="--stagger-delay: 220ms;">
+          <div class="relative aspect-video w-full overflow-hidden" style="background-color: rgba(0, 196, 140, 0.09);">
             <img
-              src="https://placehold.co/800x450/F1F7F4/4F8A74?text=Site+Institucional+%26+Servi%C3%A7os"
+              src="https://placehold.co/800x450/E3FBF4/00C48C?text=Site+Institucional+%26+Servi%C3%A7os"
               alt="Case Site Institucional e Serviços"
-              onerror="this.src='https://placehold.co/800x450/FAF8F6/272325?text=Ublix+Institucional'"
+              onerror="this.src='https://placehold.co/800x450/FCF9F7/241F23?text=Ublix+Institucional'"
               class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
             />
-            <span class="absolute top-3.5 left-3.5 rounded-full border border-[#4F8A74]/25 bg-white/95 px-3 py-1 text-[11px] font-semibold text-[#4F8A74] backdrop-blur">
+            <span class="absolute top-3.5 left-3.5 rounded-full border border-[#00C48C]/35 bg-white/95 px-3 py-1 text-[11px] font-semibold text-[#00C48C] backdrop-blur">
               Site Institucional & Serviços
             </span>
           </div>
@@ -487,19 +792,19 @@
 
             <div class="mt-3.5 space-y-2 rounded-2xl border border-atelier-border bg-white p-3.5 text-xs">
               <p class="text-atelier-muted"><strong class="text-atelier-ink">Antes:</strong> Páginas institucionais desatualizadas, headings sem hierarquia e imagens pesadas.</p>
-              <p class="text-atelier-muted"><strong class="text-[#4F8A74]">Depois:</strong> Estrutura H1–H3 organizada, SEO On-Page técnico limpo e navegação institucional clara.</p>
+              <p class="text-atelier-muted"><strong class="text-[#00C48C]">Depois:</strong> Estrutura H1–H3 organizada, SEO On-Page técnico limpo e navegação institucional clara.</p>
             </div>
 
             <div class="mt-4 flex flex-wrap gap-1.5">
-              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: #F1F7F4; color: #4F8A74;">Headings & SEO On-Page</span>
-              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: #F8F2F6; color: #8E5A82;">Páginas institucionais</span>
-              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: #F3F3F9; color: #6D6DA8;">Análise técnica</span>
+              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: rgba(0, 196, 140, 0.12); color: #00C48C;">Headings & SEO On-Page</span>
+              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: rgba(217, 70, 239, 0.12); color: #D946EF;">Páginas institucionais</span>
+              <span class="rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style="background-color: rgba(79, 70, 229, 0.12); color: #4F46E5;">Análise técnica</span>
             </div>
 
             <div class="mt-6 pt-2">
               <button
                 onclick="loadPreset(['cat2-5', 'cat4-1', 'cat4-3', 'cat4-6', 'cat6-1'], 'Escopo Site Institucional & Serviços carregado!')"
-                class="flex w-full items-center justify-center gap-2 rounded-full border border-[#4F8A74]/35 bg-white px-4 py-2.5 text-xs font-semibold text-[#4F8A74] transition hover:bg-[#4F8A74] hover:text-white"
+                class="btn-shine flex w-full items-center justify-center gap-2 rounded-full border border-[#00C48C]/45 bg-white px-4 py-2.5 text-xs font-semibold text-[#00C48C] hover:bg-[#00C48C] hover:text-white"
               >
                 <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i>
                 Carregar escopo parecido no simulador
@@ -513,13 +818,13 @@
   </section>
 
   <!-- Seção de Contato Direto -->
-  <section id="contato" class="border-t border-atelier-border bg-atelier-bg py-16 pb-28 sm:py-24 sm:pb-24">
+  <section id="contato" class="reveal-on-scroll relative z-10 border-t border-atelier-border bg-atelier-bg/85 py-16 pb-28 backdrop-blur-xs sm:py-24 sm:pb-24">
     <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
       <div class="rounded-3xl border border-atelier-border bg-white p-8 shadow-soft sm:p-12">
         <div class="text-center">
-          <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[#8E5A82]">Contato • ublix.com.br</span>
+          <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[#4F46E5]">Contato • ublix.com.br</span>
           <h2 class="mt-2 text-2xl font-bold tracking-tight text-atelier-ink sm:text-4xl">
-            Vamos conversar sobre o <span class="font-serif text-[1.12em] italic text-[#8E5A82]">próximo passo</span> do seu site?
+            Vamos conversar sobre o <span class="kinetic-text-gradient font-serif text-[1.14em] italic">próximo passo</span> do seu site?
           </h2>
           <p class="mx-auto mt-3 max-w-xl text-sm text-atelier-muted sm:text-base">
             Envie o endereço do seu projeto e o que gostaria de organizar ou ajustar. Retorno com clareza e sem compromisso.
@@ -535,7 +840,7 @@
                 id="contact-name"
                 required
                 placeholder="Ex: Camila Rocha"
-                class="mt-1.5 w-full rounded-2xl border border-atelier-border bg-atelier-bg/60 px-4 py-3 text-sm text-atelier-ink placeholder-atelier-muted/60 focus:border-[#8E5A82] focus:bg-white focus:outline-none"
+                class="mt-1.5 w-full rounded-2xl border border-atelier-border bg-atelier-bg/60 px-4 py-3 text-sm text-atelier-ink placeholder-atelier-muted/60 transition focus:border-[#D946EF] focus:bg-white focus:outline-none"
               />
             </div>
             <div>
@@ -545,7 +850,7 @@
                 id="contact-site"
                 required
                 placeholder="ex: suamarca.com.br"
-                class="mt-1.5 w-full rounded-2xl border border-atelier-border bg-atelier-bg/60 px-4 py-3 text-sm text-atelier-ink placeholder-atelier-muted/60 focus:border-[#8E5A82] focus:bg-white focus:outline-none"
+                class="mt-1.5 w-full rounded-2xl border border-atelier-border bg-atelier-bg/60 px-4 py-3 text-sm text-atelier-ink placeholder-atelier-muted/60 transition focus:border-[#D946EF] focus:bg-white focus:outline-none"
               />
             </div>
           </div>
@@ -557,15 +862,15 @@
               rows="3"
               required
               placeholder="Descreva brevemente suas prioridades técnicas, visuais ou de e-commerce..."
-              class="mt-1.5 w-full rounded-2xl border border-atelier-border bg-atelier-bg/60 px-4 py-3 text-sm text-atelier-ink placeholder-atelier-muted/60 focus:border-[#8E5A82] focus:bg-white focus:outline-none"
+              class="mt-1.5 w-full rounded-2xl border border-atelier-border bg-atelier-bg/60 px-4 py-3 text-sm text-atelier-ink placeholder-atelier-muted/60 transition focus:border-[#D946EF] focus:bg-white focus:outline-none"
             ></textarea>
           </div>
 
           <button
             type="submit"
-            class="flex w-full items-center justify-center gap-2 rounded-full bg-atelier-ink px-6 py-3.5 text-sm font-semibold text-white shadow-soft transition hover:bg-[#3B3538]"
+            class="btn-shine flex w-full items-center justify-center gap-2 rounded-full bg-atelier-ink px-6 py-3.5 text-sm font-semibold text-white shadow-soft hover:bg-[#383036]"
           >
-            <i data-lucide="message-circle" class="h-4 w-4 text-[#D8B4CE]"></i>
+            <i data-lucide="message-circle" class="h-4 w-4 text-[#F0ABFC]"></i>
             <span>Iniciar Conversa no WhatsApp</span>
           </button>
         </form>
@@ -574,12 +879,12 @@
   </section>
 
   <!-- Rodapé Elegante -->
-  <footer class="border-t border-atelier-border bg-white py-10 pb-24 lg:pb-10">
+  <footer class="relative z-10 border-t border-atelier-border bg-white py-10 pb-24 lg:pb-10">
     <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 text-center sm:flex-row sm:px-6 sm:text-left lg:px-8">
       <div>
         <div class="flex items-center justify-center gap-1.5 sm:justify-start">
-          <span class="font-serif text-xl font-bold italic text-[#8E5A82]">u</span>
-          <span class="text-base font-bold text-atelier-ink">ublix<span class="font-mono text-xs font-medium text-[#8E5A82]">.com.br</span></span>
+          <span class="font-serif text-xl font-bold italic text-[#D946EF]">u</span>
+          <span class="font-display text-base font-bold text-atelier-ink">ublix<span class="font-mono text-xs font-semibold text-[#D946EF]">.com.br</span></span>
         </div>
         <p class="mt-1 text-xs text-atelier-muted">
           Manutenção Técnica • Organização & Usabilidade • Ajustes Visuais & UX • SEO Estrutural • E-commerce
@@ -605,7 +910,7 @@
     const WHATSAPP_NUMBER = '5511999999999';
 
     /**
-     * PALETA PASTEL-MINERAL / JOALHERIA CONTEMPORÂNEA DAS 6 CATEGORIAS
+     * CORES VIVAS ATUAIS POR CATEGORIA
      */
     const CATEGORIES = [
       {
@@ -615,9 +920,9 @@
         subtitle: 'Serviços ligados à estabilidade e funcionamento do site / e-commerce.',
         badge: 'Estabilidade & Código',
         icon: 'wrench',
-        accent: '#5B8599', // Azul Névoa / Ardósia Suave
-        tint: '#F1F6F8',
-        borderTint: '#D5E3E9',
+        accent: '#00B8D9', // Ciano Elétrico Vivo
+        tint: 'rgba(0, 184, 217, 0.10)',
+        borderTint: 'rgba(0, 184, 217, 0.34)',
         notice: null
       },
       {
@@ -627,9 +932,9 @@
         subtitle: 'Aqui mora seu valor silencioso.',
         badge: 'Seu Diferencial',
         icon: 'compass',
-        accent: '#8E5A82', // Ameixa / Lavanda Profunda
-        tint: '#F8F2F6',
-        borderTint: '#E6D4E1',
+        accent: '#D946EF', // Orquídea / Magenta Vibrante
+        tint: 'rgba(217, 70, 239, 0.10)',
+        borderTint: 'rgba(217, 70, 239, 0.34)',
         notice: null
       },
       {
@@ -639,9 +944,9 @@
         subtitle: 'Sem redesign completo. Sem agência.',
         badge: 'Estética & UX',
         icon: 'sparkles',
-        accent: '#C66D77', // Terracota Rosé / Blush Queimado
-        tint: '#FDF3F4',
-        borderTint: '#F2D6D9',
+        accent: '#FF4D79', // Coral / Flamingo Vivo
+        tint: 'rgba(255, 77, 121, 0.10)',
+        borderTint: 'rgba(255, 77, 121, 0.34)',
         notice: null
       },
       {
@@ -651,9 +956,9 @@
         subtitle: 'Estrutura semântica e otimização técnica para mecanismos de busca.',
         badge: 'SEO Estrutural',
         icon: 'search',
-        accent: '#4F8A74', // Verde Sálvia / Eucalipto
-        tint: '#F1F7F4',
-        borderTint: '#D2E5DD',
+        accent: '#00C48C', // Verde Esmeralda / Mint Vibrante
+        tint: 'rgba(0, 196, 140, 0.10)',
+        borderTint: 'rgba(0, 196, 140, 0.34)',
         notice: 'Atuo com SEO técnico e estrutural, não com posicionamento garantido.'
       },
       {
@@ -663,9 +968,9 @@
         subtitle: 'Rotina real. Nada glamouroso. Muito valioso.',
         badge: 'Operação Real',
         icon: 'shopping-bag',
-        accent: '#B58246', // Dourado Champanhe / Âmbar Mel
-        tint: '#FAF5EE',
-        borderTint: '#EADCC9',
+        accent: '#FF7A00', // Tangerina / Âmbar Vivo
+        tint: 'rgba(255, 122, 0, 0.10)',
+        borderTint: 'rgba(255, 122, 0, 0.34)',
         notice: null
       },
       {
@@ -675,9 +980,9 @@
         subtitle: 'Aqui entra a base de tudo.',
         badge: 'Diagnóstico & Ciclo',
         icon: 'bar-chart-3',
-        accent: '#6D6DA8', // Malva / Índigo Suave
-        tint: '#F3F3F9',
-        borderTint: '#DADAE9',
+        accent: '#4F46E5', // Azul Royal / Íris Vibrante
+        tint: 'rgba(79, 70, 229, 0.10)',
+        borderTint: 'rgba(79, 70, 229, 0.34)',
         notice: null
       }
     ];
@@ -737,6 +1042,11 @@
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('current-year').textContent = new Date().getFullYear();
 
+      initPreloader();
+      initScrollProgressAndReveal();
+      initParallaxOrbs();
+      initNavSlidingIndicator();
+
       renderCategoryFilters();
       renderContextBanner();
       renderServices();
@@ -750,11 +1060,140 @@
       lucide.createIcons();
     });
 
+    // Preloader animado com barra de progresso suave
+    function initPreloader() {
+      const preloader = document.getElementById('ublix-preloader');
+      const bar = document.getElementById('preloader-bar');
+      const percent = document.getElementById('preloader-percent');
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (prefersReduced) {
+        bar.style.width = '100%';
+        percent.textContent = '100%';
+        preloader.classList.add('is-done');
+        return;
+      }
+
+      let progress = 0;
+      const timer = setInterval(() => {
+        progress += Math.floor(Math.random() * 18) + 12;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(timer);
+          bar.style.width = '100%';
+          percent.textContent = '100%';
+          setTimeout(() => {
+            preloader.classList.add('is-done');
+          }, 220);
+        } else {
+          bar.style.width = `${progress}%`;
+          percent.textContent = `${progress}%`;
+        }
+      }, 65);
+    }
+
+    // Barra de leitura no topo + IntersectionObserver para seções
+    function initScrollProgressAndReveal() {
+      const progressBar = document.getElementById('scroll-progress-bar');
+
+      const updateProgress = () => {
+        const doc = document.documentElement;
+        const scrollable = doc.scrollHeight - doc.clientHeight;
+        const pct = scrollable > 0 ? Math.min(100, Math.max(0, (window.scrollY / scrollable) * 100)) : 0;
+        progressBar.style.width = `${pct}%`;
+      };
+
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      updateProgress();
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+    }
+
+    // Parallax sutil nos orbes luminosos do fundo
+    function initParallaxOrbs() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const root = document.documentElement;
+
+      window.addEventListener('pointermove', (e) => {
+        const normX = (e.clientX / window.innerWidth - 0.5) * 2;
+        const normY = (e.clientY / window.innerHeight - 0.5) * 2;
+        root.style.setProperty('--parallax-x', `${(normX * 26).toFixed(1)}px`);
+        root.style.setProperty('--parallax-y', `${(normY * 22).toFixed(1)}px`);
+      }, { passive: true });
+    }
+
+    // Indicador deslizante no menu desktop
+    function initNavSlidingIndicator() {
+      const nav = document.getElementById('desktop-nav');
+      const indicator = document.getElementById('nav-sliding-indicator');
+      if (!nav || !indicator) return;
+
+      const links = nav.querySelectorAll('[data-nav-link]');
+
+      const moveToLink = (link) => {
+        const navRect = nav.getBoundingClientRect();
+        const linkRect = link.getBoundingClientRect();
+        const x = linkRect.left - navRect.left;
+        indicator.style.width = `${linkRect.width}px`;
+        indicator.style.transform = `translateX(${x}px)`;
+        indicator.style.opacity = '1';
+      };
+
+      links.forEach(link => {
+        link.addEventListener('mouseenter', () => moveToLink(link));
+        link.addEventListener('focus', () => moveToLink(link));
+        link.addEventListener('click', () => moveToLink(link));
+      });
+
+      nav.addEventListener('mouseleave', () => {
+        indicator.style.opacity = '0';
+      });
+    }
+
+    function toggleMobileNav(open) {
+      const drawer = document.getElementById('mobile-nav-drawer');
+      if (open) {
+        drawer.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+      } else {
+        drawer.classList.remove('is-open');
+        document.body.style.overflow = '';
+      }
+    }
+
+    function syncAmbientColors(catId) {
+      const root = document.documentElement;
+      if (catId === 'all') {
+        root.style.setProperty('--ambient-a', '#D946EF');
+        root.style.setProperty('--ambient-b', '#00B8D9');
+        root.style.setProperty('--ambient-c', '#FF4D79');
+        return;
+      }
+      const cat = getCategory(catId);
+      if (cat) {
+        root.style.setProperty('--ambient-a', cat.accent);
+        root.style.setProperty('--ambient-b', '#FF4D79');
+        root.style.setProperty('--ambient-c', cat.accent);
+      }
+    }
+
     function getCategory(catId) {
       return CATEGORIES.find(c => c.id === catId);
     }
 
-    // Renderiza abas das 6 categorias com paleta pastel-mineral
+    // Renderiza abas das 6 categorias com cores vivas atuais
     function renderCategoryFilters() {
       const container = document.getElementById('category-filters');
       const isAll = activeCategory === 'all';
@@ -762,7 +1201,7 @@
       let html = `
         <button
           onclick="selectCategory('all')"
-          class="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-semibold transition sm:text-sm ${
+          class="btn-shine inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-semibold transition sm:text-sm ${
             isAll
               ? 'border-atelier-ink bg-atelier-ink text-white shadow-card'
               : 'border-atelier-border bg-white text-atelier-muted hover:border-atelier-ink/30 hover:text-atelier-ink'
@@ -777,16 +1216,16 @@
         const count = SERVICES.filter(s => s.categoryId === cat.id).length;
 
         const styleAttr = active
-          ? `background-color: ${cat.tint}; border-color: ${cat.accent}; color: #272325;`
+          ? `background-color: ${cat.tint}; border-color: ${cat.accent}; color: #241F23; box-shadow: 0 6px 20px -6px ${cat.borderTint};`
           : '';
 
         html += `
           <button
             onclick="selectCategory('${cat.id}')"
             style="${styleAttr}"
-            class="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-semibold transition sm:text-sm ${
+            class="btn-shine inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-semibold transition sm:text-sm ${
               active
-                ? 'shadow-card'
+                ? ''
                 : 'border-atelier-border bg-white text-atelier-muted hover:text-atelier-ink'
             }"
           >
@@ -802,6 +1241,7 @@
 
     function selectCategory(catId) {
       activeCategory = catId;
+      syncAmbientColors(catId);
       renderCategoryFilters();
       renderContextBanner();
       renderServices();
@@ -810,6 +1250,7 @@
     function resetFilters() {
       activeCategory = 'all';
       searchQuery = '';
+      syncAmbientColors('all');
       document.getElementById('search-input').value = '';
       renderCategoryFilters();
       renderContextBanner();
@@ -822,14 +1263,14 @@
 
       if (activeCategory === 'all') {
         box.innerHTML = `
-          <div class="flex flex-col justify-between gap-3 rounded-3xl border border-atelier-border bg-white p-5 shadow-card sm:flex-row sm:items-center">
+          <div class="stagger-card flex flex-col justify-between gap-3 rounded-3xl border border-atelier-border bg-white p-5 shadow-card sm:flex-row sm:items-center" style="--stagger-delay: 0ms;">
             <div>
               <h3 class="text-sm font-bold text-atelier-ink sm:text-base">Visão Geral das 6 Especialidades</h3>
               <p class="mt-0.5 text-xs text-atelier-muted sm:text-sm">Combine entregas pontuais de diferentes categorias no simulador ao lado.</p>
             </div>
-            <div class="inline-flex w-fit items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-semibold" style="background-color: #F1F7F4; border-color: #D2E5DD; color: #4F8A74;">
+            <div class="inline-flex w-fit items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-semibold" style="background-color: rgba(0, 196, 140, 0.10); border-color: rgba(0, 196, 140, 0.34); color: #00A878;">
               <i data-lucide="shield-check" class="h-3.5 w-3.5 shrink-0"></i>
-              <span>SEO técnico e estrutural (sem posicionamento garantido)</span>
+              <span>Atuo com SEO técnico e estrutural, não com posicionamento garantido.</span>
             </div>
           </div>
         `;
@@ -841,14 +1282,14 @@
       if (!cat) return;
 
       const noticeHtml = cat.notice
-        ? `<div class="mt-3.5 flex items-center gap-2.5 rounded-2xl border px-4 py-3 text-xs font-semibold sm:text-sm" style="background-color: ${cat.tint}; border-color: ${cat.borderTint}; color: ${cat.accent};">
-             <i data-lucide="lock" class="h-4 w-4 shrink-0"></i>
+        ? `<div class="mt-3.5 flex items-center gap-2.5 rounded-2xl border px-4 py-3 text-xs font-semibold sm:text-sm" style="background-color: ${cat.tint}; border-color: ${cat.borderTint}; color: #241F23;">
+             <i data-lucide="lock" class="h-4 w-4 shrink-0" style="color: ${cat.accent};"></i>
              <span>${cat.notice}</span>
            </div>`
         : '';
 
       box.innerHTML = `
-        <div class="animate-fade-slide rounded-3xl border border-atelier-border bg-white p-6 shadow-card" style="border-left: 4px solid ${cat.accent};">
+        <div class="stagger-card rounded-3xl border border-atelier-border bg-white p-6 shadow-card" style="--stagger-delay: 0ms; border-left: 4px solid ${cat.accent};">
           <div class="flex flex-wrap items-center justify-between gap-2">
             <div class="flex items-center gap-3">
               <span class="flex h-9 w-9 items-center justify-center rounded-2xl" style="background-color: ${cat.tint}; color: ${cat.accent};">
@@ -867,7 +1308,7 @@
       lucide.createIcons();
     }
 
-    // Renderiza os 29 Serviços com Assinatura Cromática
+    // Renderiza os 29 Serviços com revelação escalonada e bordas vivas
     function renderServices() {
       const container = document.getElementById('services-container');
       const emptyState = document.getElementById('empty-state');
@@ -890,22 +1331,23 @@
 
       emptyState.classList.add('hidden');
 
-      container.innerHTML = filtered.map(service => {
+      container.innerHTML = filtered.map((service, index) => {
         const cat = getCategory(service.categoryId);
         const isSelected = selectedServices.has(service.id);
+        const delayMs = Math.min(index * 35, 350);
 
         const cardStyle = isSelected
-          ? `border-color: ${cat.accent}; border-top: 3px solid ${cat.accent}; background-color: ${cat.tint};`
-          : `border-top: 3px solid ${cat.accent};`;
+          ? `--stagger-delay: ${delayMs}ms; border-color: ${cat.accent}; border-top: 3px solid ${cat.accent}; background-color: ${cat.tint};`
+          : `--stagger-delay: ${delayMs}ms; border-top: 3px solid ${cat.accent};`;
 
         const btnStyle = isSelected
           ? `background-color: ${cat.accent}; border-color: ${cat.accent}; color: #FFFFFF;`
-          : `border-color: #EBE5E0; color: #272325;`;
+          : `border-color: #EAE2DC; color: #241F23;`;
 
         return `
           <div
             style="${cardStyle}"
-            class="animate-fade-slide flex flex-col justify-between rounded-3xl border border-atelier-border bg-white p-5 shadow-card transition hover:shadow-soft"
+            class="stagger-card flex flex-col justify-between rounded-3xl border border-atelier-border bg-white p-5 shadow-card hover:shadow-soft"
           >
             <div>
               <div class="flex items-center justify-between gap-2">
@@ -932,9 +1374,9 @@
 
               ${
                 service.categoryId === 'cat4'
-                  ? `<p class="mt-2.5 flex items-center gap-1.5 text-[11px] font-medium" style="color: #4F8A74;">
+                  ? `<p class="mt-2.5 flex items-center gap-1.5 text-[11px] font-semibold" style="color: #00A878;">
                        <i data-lucide="shield-alert" class="h-3.5 w-3.5 shrink-0"></i>
-                       SEO técnico e estrutural (sem posicionamento garantido)
+                       Atuo com SEO técnico e estrutural, não com posicionamento garantido.
                      </p>`
                   : ''
               }
@@ -944,7 +1386,7 @@
               <button
                 onclick="toggleService('${service.id}')"
                 style="${btnStyle}"
-                class="flex w-full items-center justify-center gap-2 rounded-full border bg-white px-4 py-2.5 text-xs font-semibold transition hover:opacity-90"
+                class="btn-shine flex w-full items-center justify-center gap-2 rounded-full border bg-white px-4 py-2.5 text-xs font-semibold hover:opacity-95"
               >
                 <i data-lucide="${isSelected ? 'check' : 'plus'}" class="h-3.5 w-3.5"></i>
                 <span>${isSelected ? 'Incluído no Escopo' : 'Adicionar ao Escopo'}</span>
@@ -967,7 +1409,7 @@
       } else {
         selectedServices.set(serviceId, { qty: srv.perUnit ? srv.defaultQty : 1 });
         const cat = getCategory(srv.categoryId);
-        showToast(`"${srv.name}" adicionado ao escopo.`, cat ? cat.accent : '#8E5A82');
+        showToast(`"${srv.name}" adicionado ao escopo.`, cat ? cat.accent : '#D946EF');
       }
 
       renderServices();
@@ -1003,7 +1445,7 @@
       });
       renderServices();
       renderSimulators();
-      showToast(toastMsg, '#8E5A82');
+      showToast(toastMsg, '#D946EF');
       openOrScrollSimulator();
     }
 
@@ -1011,7 +1453,7 @@
       selectedServices.clear();
       renderServices();
       renderSimulators();
-      showToast('Escopo limpo.', '#6E6568');
+      showToast('Escopo limpo.', '#6A6167');
     }
 
     function formatMinutes(total) {
@@ -1065,7 +1507,7 @@
     function buildSimulatorMarkup(prefix) {
       const stats = calculateStats();
 
-      // Barra visual segmentada com as cores das categorias selecionadas
+      // Barra visual segmentada com as cores vivas das categorias selecionadas
       let proportionBarHtml = '';
       if (stats.count > 0) {
         const segments = CATEGORIES.filter(c => stats.categoryCounts[c.id] > 0)
@@ -1077,7 +1519,7 @@
 
         const legendItems = CATEGORIES.filter(c => stats.categoryCounts[c.id] > 0)
           .map(c => `
-            <span class="inline-flex items-center gap-1 text-[10px] font-medium text-atelier-muted">
+            <span class="inline-flex items-center gap-1 text-[10px] font-semibold text-atelier-muted">
               <span class="h-2 w-2 rounded-full" style="background-color: ${c.accent};"></span>
               ${c.shortName.split(' ')[0]} (${stats.categoryCounts[c.id]})
             </span>
@@ -1086,7 +1528,7 @@
 
         proportionBarHtml = `
           <div class="mt-3.5">
-            <div class="flex h-2 w-full overflow-hidden rounded-full bg-atelier-soft">
+            <div class="flex h-2.5 w-full overflow-hidden rounded-full bg-atelier-soft">
               ${segments}
             </div>
             <div class="mt-2 flex flex-wrap gap-x-3 gap-y-1">
@@ -1119,23 +1561,23 @@
               <div class="mt-2 flex items-center justify-between rounded-xl border border-atelier-border bg-white px-3 py-1.5">
                 <span class="text-[11px] font-medium text-atelier-muted">Qtd. produtos:</span>
                 <div class="flex items-center gap-1.5">
-                  <button onclick="changeUnitQty('${srv.id}', -1)" class="flex h-6 w-6 items-center justify-center rounded-full border border-atelier-border bg-atelier-bg text-xs font-bold text-atelier-ink hover:border-[#B58246]">-</button>
+                  <button onclick="changeUnitQty('${srv.id}', -1)" class="flex h-6 w-6 items-center justify-center rounded-full border border-atelier-border bg-atelier-bg text-xs font-bold text-atelier-ink hover:border-[#FF7A00]">-</button>
                   <input
                     type="number"
                     min="1"
                     max="500"
                     value="${meta.qty}"
                     onchange="setUnitQtyInput('${srv.id}', this.value)"
-                    class="w-11 rounded-lg border border-atelier-border bg-atelier-bg py-0.5 text-center font-mono text-xs font-semibold text-atelier-ink focus:border-[#B58246] focus:outline-none"
+                    class="w-11 rounded-lg border border-atelier-border bg-atelier-bg py-0.5 text-center font-mono text-xs font-semibold text-atelier-ink focus:border-[#FF7A00] focus:outline-none"
                   />
-                  <button onclick="changeUnitQty('${srv.id}', 1)" class="flex h-6 w-6 items-center justify-center rounded-full border border-atelier-border bg-atelier-bg text-xs font-bold text-atelier-ink hover:border-[#B58246]">+</button>
+                  <button onclick="changeUnitQty('${srv.id}', 1)" class="flex h-6 w-6 items-center justify-center rounded-full border border-atelier-border bg-atelier-bg text-xs font-bold text-atelier-ink hover:border-[#FF7A00]">+</button>
                 </div>
               </div>
             `
             : '';
 
           rows.push(`
-            <div class="rounded-2xl border border-atelier-border bg-atelier-bg/60 p-3.5">
+            <div class="rounded-2xl border border-atelier-border bg-atelier-bg/70 p-3.5 transition hover:border-atelier-ink/20" style="border-left: 3px solid ${cat.accent};">
               <div class="flex items-start justify-between gap-2">
                 <div class="min-w-0">
                   <span
@@ -1153,7 +1595,7 @@
                 <button
                   onclick="toggleService('${srv.id}')"
                   aria-label="Remover ${srv.name}"
-                  class="shrink-0 rounded-full p-1.5 text-atelier-muted transition hover:bg-white hover:text-[#C66D77]"
+                  class="shrink-0 rounded-full p-1.5 text-atelier-muted transition hover:bg-white hover:text-[#FF4D79]"
                 >
                   <i data-lucide="trash-2" class="h-3.5 w-3.5"></i>
                 </button>
@@ -1169,7 +1611,7 @@
         <div class="rounded-3xl border border-atelier-border bg-white p-6 shadow-soft">
           <div class="flex items-center justify-between border-b border-atelier-border pb-4">
             <div class="flex items-center gap-2.5">
-              <div class="flex h-9 w-9 items-center justify-center rounded-2xl" style="background-color: #F8F2F6; color: #8E5A82;">
+              <div class="flex h-9 w-9 items-center justify-center rounded-2xl" style="background-color: rgba(217, 70, 239, 0.12); color: #D946EF;">
                 <i data-lucide="sliders-horizontal" class="h-4 w-4"></i>
               </div>
               <div>
@@ -1179,7 +1621,7 @@
             </div>
             ${
               stats.count > 0
-                ? `<button onclick="clearScope()" class="text-xs font-semibold text-atelier-muted hover:text-[#C66D77]">Limpar</button>`
+                ? `<button onclick="clearScope()" class="text-xs font-semibold text-atelier-muted hover:text-[#FF4D79]">Limpar</button>`
                 : ''
             }
           </div>
@@ -1200,11 +1642,11 @@
             </div>
             <div class="mt-2.5 flex items-baseline justify-between border-t border-atelier-border pt-2.5">
               <span class="text-xs font-semibold text-atelier-ink">Tempo estimado:</span>
-              <span class="font-mono text-base font-bold text-[#8E5A82]">${stats.timeText}</span>
+              <span class="font-mono text-base font-bold text-[#D946EF]">${stats.timeText}</span>
             </div>
             ${
               stats.hasVariable
-                ? `<p class="mt-2 rounded-xl px-2.5 py-1.5 text-[11px] font-medium" style="background-color: #FAF5EE; color: #B58246;">
+                ? `<p class="mt-2 rounded-xl px-2.5 py-1.5 text-[11px] font-medium" style="background-color: rgba(255, 122, 0, 0.12); color: #D96800;">
                      * Inclui suporte operacional de duração variável conforme demanda.
                    </p>`
                 : ''
@@ -1222,25 +1664,25 @@
               value="${escapeAttr(clientSiteUrl)}"
               oninput="syncClientSite(this.value)"
               placeholder="ex: www.suamarca.com.br"
-              class="mt-1.5 w-full rounded-2xl border border-atelier-border bg-atelier-bg/60 px-3.5 py-2.5 text-xs text-atelier-ink placeholder-atelier-muted/60 focus:border-[#8E5A82] focus:bg-white focus:outline-none"
+              class="mt-1.5 w-full rounded-2xl border border-atelier-border bg-atelier-bg/60 px-3.5 py-2.5 text-xs text-atelier-ink placeholder-atelier-muted/60 transition focus:border-[#D946EF] focus:bg-white focus:outline-none"
             />
           </div>
 
-          <!-- Botões WhatsApp e Copiar -->
+          <!-- Botões WhatsApp e Copiar com Brilho Deslizante -->
           <div class="mt-4 space-y-2.5">
             <button
               onclick="sendScopeToWhatsApp()"
-              class="flex w-full items-center justify-center gap-2 rounded-full bg-atelier-ink px-4 py-3.5 text-xs font-semibold text-white shadow-soft transition hover:bg-[#3B3538] sm:text-sm"
+              class="btn-shine flex w-full items-center justify-center gap-2 rounded-full bg-atelier-ink px-4 py-3.5 text-xs font-semibold text-white shadow-soft hover:bg-[#383036] sm:text-sm"
             >
-              <i data-lucide="message-circle" class="h-4 w-4 text-[#D8B4CE]"></i>
+              <i data-lucide="message-circle" class="h-4 w-4 text-[#F0ABFC]"></i>
               <span>Enviar Escopo para o WhatsApp</span>
             </button>
 
             <button
               onclick="copyScopeSummary()"
-              class="flex w-full items-center justify-center gap-2 rounded-full border border-atelier-border bg-white px-4 py-2.5 text-xs font-semibold text-atelier-ink transition hover:border-[#8E5A82]/40"
+              class="btn-shine flex w-full items-center justify-center gap-2 rounded-full border border-atelier-border bg-white px-4 py-2.5 text-xs font-semibold text-atelier-ink hover:border-[#D946EF]/50"
             >
-              <i data-lucide="copy" class="h-3.5 w-3.5 text-[#8E5A82]"></i>
+              <i data-lucide="copy" class="h-3.5 w-3.5 text-[#D946EF]"></i>
               <span>Copiar Resumo do Escopo</span>
             </button>
           </div>
@@ -1334,9 +1776,9 @@
 
       try {
         document.execCommand('copy');
-        showToast('Resumo do escopo copiado com sucesso!', '#4F8A74');
+        showToast('Resumo do escopo copiado com sucesso!', '#00C48C');
       } catch (err) {
-        showToast('Não foi possível copiar automaticamente.', '#C66D77');
+        showToast('Não foi possível copiar automaticamente.', '#FF4D79');
       } finally {
         document.body.removeChild(textarea);
       }
@@ -1353,7 +1795,7 @@
     }
 
     let toastTimeout;
-    function showToast(message, dotColor = '#8E5A82') {
+    function showToast(message, dotColor = '#D946EF') {
       const toast = document.getElementById('toast');
       const msgEl = document.getElementById('toast-message');
       const dotEl = document.getElementById('toast-dot');
