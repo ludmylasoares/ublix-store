@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ublix | UX, Organização Técnica — ublix.com.br</title>
+  <title>Ublix | UX, Organização & Sustentação Técnica</title>
   <meta name="description" content="Evolução digital contínua sem redesign completo e sem burocracia de agência. Manutenção técnica, organização & usabilidade, UX pontual, SEO estrutural e operação de e-commerce." />
 
   <!-- Google Fonts: Plus Jakarta Sans, Cormorant Garamond, Syne & JetBrains Mono -->
@@ -152,6 +152,41 @@
       50% { transform: translate3d(calc(var(--parallax-x) * -0.5), calc(var(--parallax-y) * 0.6), 0) scale(1.14); }
     }
 
+    /* Camada de Figuras Geométricas 2D Vazadas (Gravidade + Fade In/Out) */
+    #ambient-geometry-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .geo-shape {
+      position: absolute;
+      opacity: 0;
+      will-change: transform, opacity;
+      animation: geoGravityFloat var(--geo-duration, 16s) ease-in-out var(--geo-delay, 0s) infinite;
+    }
+    @keyframes geoGravityFloat {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, -28px, 0) rotate(var(--geo-rot-start, 0deg)) scale(0.92);
+      }
+      18% {
+        opacity: var(--geo-opacity, 0.34);
+      }
+      50% {
+        opacity: var(--geo-opacity, 0.34);
+        transform: translate3d(var(--geo-drift-x, 14px), 16px, 0) rotate(var(--geo-rot-mid, 14deg)) scale(1);
+      }
+      82% {
+        opacity: var(--geo-opacity, 0.34);
+      }
+      100% {
+        opacity: 0;
+        transform: translate3d(calc(var(--geo-drift-x, 14px) * -0.5), 54px, 0) rotate(var(--geo-rot-end, 28deg)) scale(0.94);
+      }
+    }
+
     /* Efeitos em texto: shimmer cinético e revelação */
     .kinetic-text-gradient {
       background: linear-gradient(110deg, #D946EF 0%, #FF4D79 35%, #FF7A00 68%, #00B8D9 100%);
@@ -281,6 +316,9 @@
         opacity: 1 !important;
         transform: none !important;
       }
+      #ambient-geometry-layer {
+        display: none !important;
+      }
     }
 
     /* Scrollbar minimalista */
@@ -307,15 +345,13 @@
     <div class="relative flex flex-col items-center text-center">
       <div class="relative mb-5 flex h-16 w-16 items-center justify-center">
         <span class="preloader-ring absolute inset-0 rounded-full border-2 border-dashed border-[#D946EF]/45"></span>
-        <span class="flex h-12 w-12 items-center justify-center rounded-full border border-[#EAE2DC] bg-white shadow-card">
-          <span class="font-serif text-3xl font-bold italic text-[#D946EF]">u</span>
+        <span class="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-[#EAE2DC] bg-white p-1.5 shadow-card">
+          <img src="logo-ublix.png" alt="Ublix" class="h-full w-full object-contain" />
         </span>
       </div>
 
-      <div class="preloader-word flex items-baseline gap-1.5">
+      <div class="preloader-word flex items-center">
         <span class="font-display text-2xl font-bold tracking-tight text-atelier-ink">ublix</span>
-        <span class="font-mono text-xs font-semibold text-[#FF4D79]">.com.br</span>
-        <span class="ml-1 font-serif text-lg italic text-atelier-muted"></span>
       </div>
 
       <div class="mt-5 h-1.5 w-48 overflow-hidden rounded-full bg-atelier-soft">
@@ -343,7 +379,10 @@
   <div class="ambient-orb ambient-orb-2" aria-hidden="true"></div>
   <div class="ambient-orb ambient-orb-3" aria-hidden="true"></div>
 
-  <!-- Toast de Notificação (Substitui alert()) -->
+  <!-- Camada de Cubos e Círculos 2D Vazados Animados -->
+  <div id="ambient-geometry-layer" aria-hidden="true"></div>
+
+  <!-- Toast de Notificação -->
   <div id="toast" class="fixed bottom-24 right-5 z-50 hidden max-w-sm rounded-2xl border border-atelier-border bg-white/95 px-4 py-3.5 text-sm text-atelier-ink shadow-float backdrop-blur sm:bottom-6">
     <div class="flex items-center gap-3">
       <span id="toast-dot" class="h-2.5 w-2.5 shrink-0 rounded-full" style="background-color: #D946EF;"></span>
@@ -354,16 +393,17 @@
   <!-- Cabeçalho Minimalista & Fixo com Indicador Deslizante -->
   <header class="glass-nav sticky top-0 z-40 border-b border-atelier-border">
     <div class="relative mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-      <!-- Marca Ublix -->
+      <!-- Marca Ublix (Imagem .png + Hover + Sem .com.br) -->
       <a href="#" class="group flex items-center gap-3">
-        <div class="flex h-10 w-10 items-center justify-center rounded-full border border-[#D946EF]/30 bg-white shadow-card transition-all duration-300 group-hover:scale-105 group-hover:border-[#FF4D79]">
-          <span class="font-serif text-2xl font-bold italic text-[#D946EF] transition-transform duration-300 group-hover:rotate-6">u</span>
+        <div class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-[#D946EF]/30 bg-white p-1.5 shadow-card transition-all duration-300 group-hover:scale-105 group-hover:border-[#FF4D79]">
+          <img
+            src="logo-ublix.png"
+            alt="Logotipo Ublix"
+            class="h-full w-full object-contain transition-transform duration-300 group-hover:rotate-6"
+          />
         </div>
         <div>
-          <div class="flex items-baseline gap-1">
-            <span class="font-display text-base font-bold tracking-tight text-atelier-ink">ublix</span>
-            <span class="font-mono text-xs font-semibold text-[#D946EF]">.com.br</span>
-          </div>
+          <span class="block font-display text-base font-bold tracking-tight text-atelier-ink">ublix</span>
           <p class="text-[11px] tracking-wide text-atelier-muted">UX, Organização & Sustentação</p>
         </div>
       </a>
@@ -412,9 +452,9 @@
     <div id="mobile-nav-panel" class="fixed inset-y-0 right-0 flex w-72 max-w-[85vw] flex-col justify-between border-l border-atelier-border bg-[#FCF9F7] p-6 shadow-float">
       <div>
         <div class="flex items-center justify-between border-b border-atelier-border pb-4">
-          <div class="flex items-baseline gap-1">
+          <div class="flex items-center gap-2">
+            <img src="logo-ublix.png" alt="Ublix" class="h-6 w-6 object-contain" />
             <span class="font-display text-base font-bold text-atelier-ink">ublix</span>
-            <span class="font-mono text-xs font-semibold text-[#D946EF]">.com.br</span>
           </div>
           <button onclick="toggleMobileNav(false)" aria-label="Fechar menu" class="rounded-full border border-atelier-border bg-white p-2 text-atelier-ink">
             <i data-lucide="x" class="h-4 w-4"></i>
@@ -606,24 +646,18 @@
         </div>
       </div>
 
-      <!-- Barra de Filtro das 6 Categorias (Cores Vivas Atuais) -->
-      <div id="category-filters" class="mt-8 flex flex-wrap gap-2.5" role="tablist">
-        <!-- Renderizado dinamicamente via JS -->
-      </div>
+      <!-- Barra de Filtro das 6 Categorias -->
+      <div id="category-filters" class="mt-8 flex flex-wrap gap-2.5" role="tablist"></div>
 
       <!-- Banner Contextual da Categoria Ativa -->
-      <div id="category-context-banner" class="mt-6">
-        <!-- Renderizado dinamicamente via JS -->
-      </div>
+      <div id="category-context-banner" class="mt-6"></div>
 
       <!-- Grid Principal: Catálogo (8 col) + Simulador Sticky (4 col) -->
       <div class="mt-8 grid gap-8 lg:grid-cols-12 lg:items-start">
 
         <!-- Lista/Cards de Serviços -->
         <div class="lg:col-span-8">
-          <div id="services-container" class="grid gap-4 sm:grid-cols-2">
-            <!-- Cards renderizados via JS -->
-          </div>
+          <div id="services-container" class="grid gap-4 sm:grid-cols-2"></div>
 
           <!-- Estado Vazio na Busca -->
           <div id="empty-state" class="hidden rounded-3xl border border-atelier-border bg-white p-12 text-center shadow-card">
@@ -822,7 +856,7 @@
     <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
       <div class="rounded-3xl border border-atelier-border bg-white p-8 shadow-soft sm:p-12">
         <div class="text-center">
-          <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[#4F46E5]">Contato • ublix.com.br</span>
+          <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[#4F46E5]">Contato • Ublix</span>
           <h2 class="mt-2 text-2xl font-bold tracking-tight text-atelier-ink sm:text-4xl">
             Vamos conversar sobre o <span class="kinetic-text-gradient font-serif text-[1.14em] italic">próximo passo</span> do seu site?
           </h2>
@@ -882,9 +916,9 @@
   <footer class="relative z-10 border-t border-atelier-border bg-white py-10 pb-24 lg:pb-10">
     <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 text-center sm:flex-row sm:px-6 sm:text-left lg:px-8">
       <div>
-        <div class="flex items-center justify-center gap-1.5 sm:justify-start">
-          <span class="font-serif text-xl font-bold italic text-[#D946EF]">u</span>
-          <span class="font-display text-base font-bold text-atelier-ink">ublix<span class="font-mono text-xs font-semibold text-[#D946EF]">.com.br</span></span>
+        <div class="flex items-center justify-center gap-2 sm:justify-start">
+          <img src="logo-ublix.png" alt="Ublix" class="h-5 w-5 object-contain" />
+          <span class="font-display text-base font-bold text-atelier-ink">ublix</span>
         </div>
         <p class="mt-1 text-xs text-atelier-muted">
           Manutenção Técnica • Organização & Usabilidade • Ajustes Visuais & UX • SEO Estrutural • E-commerce
@@ -899,19 +933,15 @@
       </div>
 
       <p class="font-mono text-xs text-atelier-muted">
-        © <span id="current-year"></span> ublix.com.br
+        © <span id="current-year"></span> ublix
       </p>
     </div>
   </footer>
 
   <!-- Lógica JavaScript Pura (ES6+) -->
   <script>
-    // Constante fácil de editar com o número oficial de WhatsApp da Ublix
     const WHATSAPP_NUMBER = '5511999999999';
 
-    /**
-     * CORES VIVAS ATUAIS POR CATEGORIA
-     */
     const CATEGORIES = [
       {
         id: 'cat1',
@@ -920,7 +950,7 @@
         subtitle: 'Serviços ligados à estabilidade e funcionamento do site / e-commerce.',
         badge: 'Estabilidade & Código',
         icon: 'wrench',
-        accent: '#00B8D9', // Ciano Elétrico Vivo
+        accent: '#00B8D9',
         tint: 'rgba(0, 184, 217, 0.10)',
         borderTint: 'rgba(0, 184, 217, 0.34)',
         notice: null
@@ -932,7 +962,7 @@
         subtitle: 'Aqui mora seu valor silencioso.',
         badge: 'Seu Diferencial',
         icon: 'compass',
-        accent: '#D946EF', // Orquídea / Magenta Vibrante
+        accent: '#D946EF',
         tint: 'rgba(217, 70, 239, 0.10)',
         borderTint: 'rgba(217, 70, 239, 0.34)',
         notice: null
@@ -944,7 +974,7 @@
         subtitle: 'Sem redesign completo. Sem agência.',
         badge: 'Estética & UX',
         icon: 'sparkles',
-        accent: '#FF4D79', // Coral / Flamingo Vivo
+        accent: '#FF4D79',
         tint: 'rgba(255, 77, 121, 0.10)',
         borderTint: 'rgba(255, 77, 121, 0.34)',
         notice: null
@@ -956,7 +986,7 @@
         subtitle: 'Estrutura semântica e otimização técnica para mecanismos de busca.',
         badge: 'SEO Estrutural',
         icon: 'search',
-        accent: '#00C48C', // Verde Esmeralda / Mint Vibrante
+        accent: '#00C48C',
         tint: 'rgba(0, 196, 140, 0.10)',
         borderTint: 'rgba(0, 196, 140, 0.34)',
         notice: 'Atuo com SEO técnico e estrutural, não com posicionamento garantido.'
@@ -968,7 +998,7 @@
         subtitle: 'Rotina real. Nada glamouroso. Muito valioso.',
         badge: 'Operação Real',
         icon: 'shopping-bag',
-        accent: '#FF7A00', // Tangerina / Âmbar Vivo
+        accent: '#FF7A00',
         tint: 'rgba(255, 122, 0, 0.10)',
         borderTint: 'rgba(255, 122, 0, 0.34)',
         notice: null
@@ -980,16 +1010,13 @@
         subtitle: 'Aqui entra a base de tudo.',
         badge: 'Diagnóstico & Ciclo',
         icon: 'bar-chart-3',
-        accent: '#4F46E5', // Azul Royal / Íris Vibrante
+        accent: '#4F46E5',
         tint: 'rgba(79, 70, 229, 0.10)',
         borderTint: 'rgba(79, 70, 229, 0.34)',
         notice: null
       }
     ];
 
-    /**
-     * TODOS OS 29 SERVIÇOS EXATOS DA PLANILHA
-     */
     const SERVICES = [
       // Categoria 1 — Manutenção Técnica
       { id: 'cat1-1', categoryId: 'cat1', name: 'Correção de bugs visuais', scope: 'Quebras de layout, erros de CSS, ajustes pontuais', timeLabel: '30min – 1h', minMinutes: 30, maxMinutes: 60 },
@@ -998,7 +1025,7 @@
       { id: 'cat1-4', categoryId: 'cat1', name: 'Atualizações simples', scope: 'Tema, plugins (sem conflito grave)', timeLabel: '30min – 1h', minMinutes: 30, maxMinutes: 60 },
       { id: 'cat1-5', categoryId: 'cat1', name: 'Revisão técnica geral', scope: 'Olhar preventivo', timeLabel: '1h', minMinutes: 60, maxMinutes: 60 },
 
-      // Categoria 2 — Organização & Usabilidade (Seu Diferencial)
+      // Categoria 2 — Organização & Usabilidade
       { id: 'cat2-1', categoryId: 'cat2', name: 'Organização de páginas', scope: 'Hierarquia, menus, fluxo', timeLabel: '1h – 2h', minMinutes: 60, maxMinutes: 120 },
       { id: 'cat2-2', categoryId: 'cat2', name: 'Organização de categorias', scope: 'Lógica, clareza, navegação', timeLabel: '1h – 2h', minMinutes: 60, maxMinutes: 120 },
       { id: 'cat2-3', categoryId: 'cat2', name: 'Padronização de conteúdo', scope: 'Títulos, textos, estrutura', timeLabel: '1h – 2h', minMinutes: 60, maxMinutes: 120 },
@@ -1033,11 +1060,10 @@
       { id: 'cat6-4', categoryId: 'cat6', name: 'Planejamento de prioridades', scope: 'Próximo ciclo', timeLabel: '30m', minMinutes: 30, maxMinutes: 30 }
     ];
 
-    // Estado da Aplicação
     let activeCategory = 'all';
     let searchQuery = '';
     let clientSiteUrl = '';
-    const selectedServices = new Map(); // Map<serviceId, { qty: number }>
+    const selectedServices = new Map();
 
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('current-year').textContent = new Date().getFullYear();
@@ -1045,6 +1071,7 @@
       initPreloader();
       initScrollProgressAndReveal();
       initParallaxOrbs();
+      initAmbientGeometry();
       initNavSlidingIndicator();
 
       renderCategoryFilters();
@@ -1060,7 +1087,57 @@
       lucide.createIcons();
     });
 
-    // Preloader animado com barra de progresso suave
+    // Gera cubos e círculos 2D vazados com linhas finas, transparência, gravidade e fade in/out
+    function initAmbientGeometry() {
+      const container = document.getElementById('ambient-geometry-layer');
+      if (!container || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const palette = ['#D946EF', '#00B8D9', '#FF4D79', '#00C48C', '#FF7A00', '#4F46E5'];
+      const shapes = [
+        { type: 'cube',   top: 8,  left: 6,  size: 46, color: palette[0], dur: 17, delay: 0,   drift: 16,  rot: -10 },
+        { type: 'circle', top: 14, left: 88, size: 54, color: palette[1], dur: 19, delay: 2.5, drift: -18, rot: 0   },
+        { type: 'cube',   top: 32, left: 92, size: 38, color: palette[2], dur: 15, delay: 5,   drift: -14, rot: 14  },
+        { type: 'circle', top: 44, left: 4,  size: 42, color: palette[3], dur: 21, delay: 1.5, drift: 20,  rot: 0   },
+        { type: 'cube',   top: 62, left: 85, size: 52, color: palette[4], dur: 18, delay: 7,   drift: -15, rot: -16 },
+        { type: 'circle', top: 74, left: 10, size: 60, color: palette[5], dur: 22, delay: 4,   drift: 14,  rot: 0   },
+        { type: 'cube',   top: 22, left: 26, size: 32, color: palette[1], dur: 16, delay: 8.5, drift: 12,  rot: 12  },
+        { type: 'circle', top: 56, left: 72, size: 34, color: palette[0], dur: 20, delay: 3.2, drift: -12, rot: 0   },
+        { type: 'cube',   top: 84, left: 48, size: 40, color: palette[2], dur: 17, delay: 6.2, drift: 15,  rot: -8  },
+        { type: 'circle', top: 18, left: 66, size: 36, color: palette[3], dur: 18, delay: 9.5, drift: -10, rot: 0   }
+      ];
+
+      container.innerHTML = shapes.map(s => {
+        const svgMarkup = s.type === 'cube'
+          ? `<svg width="${s.size}" height="${s.size}" viewBox="0 0 64 64" fill="none" stroke="${s.color}" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+               <polygon points="32,6 56,19 56,45 32,58 8,45 8,19" />
+               <polyline points="8,19 32,32 56,19" />
+               <line x1="32" y1="32" x2="32" y2="58" />
+             </svg>`
+          : `<svg width="${s.size}" height="${s.size}" viewBox="0 0 64 64" fill="none" stroke="${s.color}" stroke-width="1.25">
+               <circle cx="32" cy="32" r="25" />
+             </svg>`;
+
+        return `
+          <div
+            class="geo-shape"
+            style="
+              top: ${s.top}%;
+              left: ${s.left}%;
+              --geo-duration: ${s.dur}s;
+              --geo-delay: ${s.delay}s;
+              --geo-drift-x: ${s.drift}px;
+              --geo-rot-start: ${s.rot}deg;
+              --geo-rot-mid: ${s.rot + 14}deg;
+              --geo-rot-end: ${s.rot + 28}deg;
+              --geo-opacity: 0.36;
+            "
+          >
+            ${svgMarkup}
+          </div>
+        `;
+      }).join('');
+    }
+
     function initPreloader() {
       const preloader = document.getElementById('ublix-preloader');
       const bar = document.getElementById('preloader-bar');
@@ -1092,7 +1169,6 @@
       }, 65);
     }
 
-    // Barra de leitura no topo + IntersectionObserver para seções
     function initScrollProgressAndReveal() {
       const progressBar = document.getElementById('scroll-progress-bar');
 
@@ -1121,7 +1197,6 @@
       document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
     }
 
-    // Parallax sutil nos orbes luminosos do fundo
     function initParallaxOrbs() {
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       const root = document.documentElement;
@@ -1134,7 +1209,6 @@
       }, { passive: true });
     }
 
-    // Indicador deslizante no menu desktop
     function initNavSlidingIndicator() {
       const nav = document.getElementById('desktop-nav');
       const indicator = document.getElementById('nav-sliding-indicator');
@@ -1193,7 +1267,6 @@
       return CATEGORIES.find(c => c.id === catId);
     }
 
-    // Renderiza abas das 6 categorias com cores vivas atuais
     function renderCategoryFilters() {
       const container = document.getElementById('category-filters');
       const isAll = activeCategory === 'all';
@@ -1257,7 +1330,6 @@
       renderServices();
     }
 
-    // Banner Contextual da Categoria Selecionada
     function renderContextBanner() {
       const box = document.getElementById('category-context-banner');
 
@@ -1308,7 +1380,6 @@
       lucide.createIcons();
     }
 
-    // Renderiza os 29 Serviços com revelação escalonada e bordas vivas
     function renderServices() {
       const container = document.getElementById('services-container');
       const emptyState = document.getElementById('empty-state');
@@ -1399,7 +1470,6 @@
       lucide.createIcons();
     }
 
-    // Alterna seleção de serviço no simulador
     function toggleService(serviceId) {
       const srv = SERVICES.find(s => s.id === serviceId);
       if (!srv) return;
@@ -1416,7 +1486,6 @@
       renderSimulators();
     }
 
-    // Ajuste de quantidade para itens por produto
     function changeUnitQty(serviceId, delta) {
       const item = selectedServices.get(serviceId);
       if (!item) return;
@@ -1434,7 +1503,6 @@
       renderSimulators();
     }
 
-    // Carrega preset de um case do portfólio
     function loadPreset(ids, toastMsg) {
       selectedServices.clear();
       ids.forEach(id => {
@@ -1503,11 +1571,9 @@
       return { count, minTotal, maxTotal, hasVariable, timeText, categoryCounts };
     }
 
-    // Constrói HTML do Simulador (Desktop Sticky & Drawer Mobile)
     function buildSimulatorMarkup(prefix) {
       const stats = calculateStats();
 
-      // Barra visual segmentada com as cores vivas das categorias selecionadas
       let proportionBarHtml = '';
       if (stats.count > 0) {
         const segments = CATEGORIES.filter(c => stats.categoryCounts[c.id] > 0)
@@ -1538,7 +1604,6 @@
         `;
       }
 
-      // Lista de serviços selecionados
       let listHtml = '';
       if (stats.count === 0) {
         listHtml = `
@@ -1626,15 +1691,12 @@
             }
           </div>
 
-          <!-- Barra de Proporção Visual por Categoria -->
           ${proportionBarHtml}
 
-          <!-- Itens Selecionados -->
           <div class="my-4 max-h-64 space-y-2.5 overflow-y-auto pr-1">
             ${listHtml}
           </div>
 
-          <!-- Resumo de Tempo -->
           <div class="rounded-2xl border border-atelier-border bg-atelier-bg p-4">
             <div class="flex items-center justify-between text-xs text-atelier-muted">
               <span>Serviços selecionados:</span>
@@ -1653,7 +1715,6 @@
             }
           </div>
 
-          <!-- Domínio do Cliente (Opcional) -->
           <div class="mt-4">
             <label for="${prefix}-site-input" class="block text-[11px] font-semibold text-atelier-muted">
               Seu domínio / loja (opcional)
@@ -1668,7 +1729,6 @@
             />
           </div>
 
-          <!-- Botões WhatsApp e Copiar com Brilho Deslizante -->
           <div class="mt-4 space-y-2.5">
             <button
               onclick="sendScopeToWhatsApp()"
@@ -1741,7 +1801,7 @@
       const siteInfo = clientSiteUrl.trim() ? `\nSite/Loja: ${clientSiteUrl.trim()}` : '';
 
       if (stats.count === 0) {
-        return `Olá! Visitei o site da Ublix (ublix.com.br) e gostaria de conversar sobre melhorias técnicas, UX e organização para o meu projeto.${siteInfo}`;
+        return `Olá! Visitei o site da Ublix e gostaria de conversar sobre melhorias técnicas, UX e organização para o meu projeto.${siteInfo}`;
       }
 
       const items = [];
@@ -1757,7 +1817,7 @@
         idx++;
       });
 
-      return `Olá! Montei este escopo no simulador da Ublix (ublix.com.br):\n\n${items.join('\n')}\n\nTempo total estimado: ${stats.timeText}${siteInfo}\n\nPodemos conversar sobre os próximos passos?`;
+      return `Olá! Montei este escopo no simulador da Ublix:\n\n${items.join('\n')}\n\nTempo total estimado: ${stats.timeText}${siteInfo}\n\nPodemos conversar sobre os próximos passos?`;
     }
 
     function sendScopeToWhatsApp() {
@@ -1790,7 +1850,7 @@
       const site = document.getElementById('contact-site').value.trim();
       const note = document.getElementById('contact-note').value.trim();
 
-      const msg = `Olá! Meu nome é ${name}.\nSite/Loja: ${site}\nO que gostaria de melhorar: ${note}\n\nEnviado via ublix.com.br.`;
+      const msg = `Olá! Meu nome é ${name}.\nSite/Loja: ${site}\nO que gostaria de melhorar: ${note}\n\nEnviado via Ublix.`;
       window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
     }
 
