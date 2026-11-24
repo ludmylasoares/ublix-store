@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ublix | UX, Organização & Sustentação Técnica</title>
   <meta name="description" content="Evolução digital contínua sem redesign completo e sem burocracia de agência. Manutenção técnica, organização & usabilidade, UX pontual, SEO estrutural e operação de e-commerce." />
-  <!-- Favicon atualizado baseado em favicon-ublix-branco.png -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='bgGrad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%237209FF'/%3E%3Cstop offset='55%25' stop-color='%234B00C8'/%3E%3Cstop offset='100%25' stop-color='%23230066'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='2' y='2' width='60' height='60' rx='16' fill='url(%23bgGrad)'/%3E%3Cpath d='M16 21C16 18.8 17.8 17 20 17C22.2 17 24 18.8 24 21V36.5C24 41.2 27.6 44.5 32 44.5C36.4 44.5 40 41.2 40 36.5V23.5C40 21.3 41.8 19.5 44 19.5C46.2 19.5 48 21.3 48 23.5V36.5C48 45.8 41.2 52.5 32 52.5C22.8 52.5 16 45.8 16 36.5V21Z' fill='%23FFFFFF'/%3E%3Crect x='47' y='11' width='6.5' height='6.5' rx='1.5' fill='%23FFFFFF'/%3E%3Crect x='41' y='15.5' width='5' height='5' rx='1.2' fill='%23FFFFFF'/%3E%3Crect x='47' y='19.5' width='6' height='6' rx='1.4' fill='%23FFFFFF'/%3E%3C/svg%3E" />
+
   <!-- Google Fonts: Plus Jakarta Sans, Cormorant Garamond, Syne & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -173,14 +172,14 @@
         transform: translate3d(0, -28px, 0) rotate(var(--geo-rot-start, 0deg)) scale(0.92);
       }
       18% {
-        opacity: var(--geo-opacity, 0.34);
+        opacity: var(--geo-opacity, 0.36);
       }
       50% {
-        opacity: var(--geo-opacity, 0.34);
+        opacity: var(--geo-opacity, 0.36);
         transform: translate3d(var(--geo-drift-x, 14px), 16px, 0) rotate(var(--geo-rot-mid, 14deg)) scale(1);
       }
       82% {
-        opacity: var(--geo-opacity, 0.34);
+        opacity: var(--geo-opacity, 0.36);
       }
       100% {
         opacity: 0;
@@ -393,20 +392,14 @@
 
   <!-- Cabeçalho Minimalista & Fixo com Indicador Deslizante -->
   <header class="glass-nav sticky top-0 z-40 border-b border-atelier-border">
-    <div class="relative mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-      <!-- Marca Ublix (Imagem .png + Hover + Sem .com.br) -->
-      <a href="#" class="group flex items-center gap-3">
-        <div class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-[#D946EF]/30 bg-white p-1.5 shadow-card transition-all duration-300 group-hover:scale-105 group-hover:border-[#FF4D79]">
-          <img
-            src="assets/logomarca.png"
-            alt="Logotipo Ublix"
-            class="h-full w-full object-contain transition-transform duration-300 group-hover:rotate-6"
-          />
-        </div>
-        <div>
-          <span class="block font-display text-base font-bold tracking-tight text-atelier-ink">ublix</span>
-          <p class="text-[11px] tracking-wide text-atelier-muted">UX, Organização & Sustentação</p>
-        </div>
+    <div class="relative mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 sm:px-6 lg:px-8">
+      <!-- Marca Ublix (Apenas Imagem .png livre, sem círculo, sem fundo e com animação hover) -->
+      <a href="#" class="group inline-flex items-center focus:outline-none" aria-label="Página inicial Ublix">
+        <img
+          src="assets/logotipo-ublix-pq.png"
+          alt="Ublix"
+          class="h-10 w-auto object-contain transition-transform duration-300 ease-out group-hover:scale-105 group-hover:-rotate-2 sm:h-11"
+        />
       </a>
 
       <!-- Navegação Desktop com Indicador Deslizante -->
@@ -453,10 +446,7 @@
     <div id="mobile-nav-panel" class="fixed inset-y-0 right-0 flex w-72 max-w-[85vw] flex-col justify-between border-l border-atelier-border bg-[#FCF9F7] p-6 shadow-float">
       <div>
         <div class="flex items-center justify-between border-b border-atelier-border pb-4">
-          <div class="flex items-center gap-2">
-            <img src="assets/logomarca.png" alt="Ublix" class="h-6 w-6 object-contain" />
-            <span class="font-display text-base font-bold text-atelier-ink">ublix</span>
-          </div>
+          <img src="assets/logomarca.png" alt="Ublix" class="h-8 w-auto object-contain" />
           <button onclick="toggleMobileNav(false)" aria-label="Fechar menu" class="rounded-full border border-atelier-border bg-white p-2 text-atelier-ink">
             <i data-lucide="x" class="h-4 w-4"></i>
           </button>
@@ -917,11 +907,10 @@
   <footer class="relative z-10 border-t border-atelier-border bg-white py-10 pb-24 lg:pb-10">
     <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 text-center sm:flex-row sm:px-6 sm:text-left lg:px-8">
       <div>
-        <div class="flex items-center justify-center gap-2 sm:justify-start">
-          <img src="assets/logotipo-ublix-pq.png" alt="Ublix" class="h-5 w-5 object-contain" />
-          <span class="font-display text-base font-bold text-atelier-ink"></span>
-        </div>
-        <p class="mt-1 text-xs text-atelier-muted">
+        <a href="#" class="inline-flex items-center justify-center sm:justify-start" aria-label="Ublix">
+          <img src="assets/logotipo-ublix-pq.png" alt="Ublix" class="h-12 w-auto object-contain sm:h-14" />
+        </a>
+        <p class="mt-2.5 text-xs text-atelier-muted">
           Manutenção Técnica • Organização & Usabilidade • Ajustes Visuais & UX • SEO Estrutural • E-commerce
         </p>
       </div>
@@ -941,7 +930,7 @@
 
   <!-- Lógica JavaScript Pura (ES6+) -->
   <script>
-    const WHATSAPP_NUMBER = '551198521885';
+    const WHATSAPP_NUMBER = '5511999999999';
 
     const CATEGORIES = [
       {
